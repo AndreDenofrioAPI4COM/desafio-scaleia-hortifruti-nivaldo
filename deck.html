@@ -50,8 +50,8 @@
   .tech{display:inline-block;background:#eef4ef;border-radius:6px;padding:1px 6px;font-size:.72em;
     font-weight:700;color:var(--green-d);white-space:nowrap}
   .arrow{align-self:center;color:var(--green);font-size:1.5rem;font-weight:800;flex:0 0 auto}
-  .k2 .tech,.stage.b2 .tech{background:var(--blue-bg);color:var(--blue)}
-  .k3 .tech,.stage.b3 .tech{background:var(--purple-bg);color:var(--purple)}
+  .k2 .tech,.stage.b2 .tech,.card.b2 .tech{background:var(--blue-bg);color:var(--blue)}
+  .k3 .tech,.stage.b3 .tech,.card.b3 .tech{background:var(--purple-bg);color:var(--purple)}
 
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(12px,1.6vw,18px)}
   .card h3{font-size:clamp(.92rem,1.5vw,1.1rem);margin-bottom:.3em}
@@ -408,6 +408,41 @@
     </div>
   </section>
 
+  <!-- 6c · STACK TECNOLÓGICO -->
+  <section class="slide">
+    <div class="pad">
+      <div class="kicker">Stack tecnológico</div>
+      <h2>Como cada camada é executada — tudo open-source em VPS</h2>
+      <div class="grid3 grow" style="margin-top:12px;grid-template-rows:1fr 1fr">
+        <div class="card"><span class="tag">Coleta · WhatsApp</span>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px">
+            <span class="tech">VPS</span><span class="tech">Evolution API</span>
+            <span class="tech">backup do histórico</span><span class="tech">webhooks</span></div></div>
+        <div class="card"><span class="tag">Coleta · Sensores</span>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px">
+            <span class="tech">câmera RTSP + edge</span><span class="tech">OpenCV</span>
+            <span class="tech">balança PLU → MQTT</span><span class="tech">cron (clima/CEASA)</span></div></div>
+        <div class="card"><span class="tag">Persistência</span>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px">
+            <span class="tech">PostgreSQL</span><span class="tech">TimescaleDB</span>
+            <span class="tech">pgvector (RAG)</span><span class="tech">MinIO / S3 (mídia)</span></div></div>
+        <div class="card b2"><span class="tag b">Modelos prontos</span>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px">
+            <span class="tech">Ultralytics YOLO</span><span class="tech">SAM 2</span><span class="tech">Grounding DINO</span>
+            <span class="tech">MiVOLO</span><span class="tech">PaddleOCR</span><span class="tech">Claude API + RAG</span></div></div>
+        <div class="card b2"><span class="tag b">Treinamento</span>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px">
+            <span class="tech">scikit-learn</span><span class="tech">LightGBM</span>
+            <span class="tech">lifelines (survival)</span><span class="tech">CausalML / scikit-uplift</span><span class="tech">MLflow</span></div></div>
+        <div class="card b3"><span class="tag p">Inferência · Serving · Infra</span>
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:9px">
+            <span class="tech">FastAPI</span><span class="tech">Celery + Redis</span><span class="tech">Piper TTS</span>
+            <span class="tech">River (bandit)</span><span class="tech">Docker Compose</span><span class="tech">n8n</span></div></div>
+      </div>
+      <div class="amberbox">Stack enxuto: uma <b>VPS</b> roda tudo (Docker Compose). Sem PDV, sem hardware caro — Evolution API no WhatsApp, PostgreSQL no centro, modelos prontos na borda.</div>
+    </div>
+  </section>
+
   <!-- 7 · O CICLO -->
   <section class="slide dark">
     <div class="pad center" style="text-align:center;align-items:center">
@@ -440,7 +475,7 @@
 
 <button class="nav" id="prev" aria-label="anterior">‹</button>
 <button class="nav" id="next" aria-label="próximo">›</button>
-<div id="counter">01 / 14</div>
+<div id="counter">01 / 15</div>
 <div id="hint">← → navegar · F tela cheia</div>
 
 <script>
