@@ -80,11 +80,23 @@ Cinco fontes (todas coletam *enquanto* o Nivaldo trabalha — respeitando as res
 Detalhamento completo das sub-pipelines (câmera e balança), com técnicas e modelos
 prontos por etapa, no **[index.html](index.html)** (documento de submissão).
 
+Sub-pipelines das fontes 3, 4 e 5 (WhatsApp, bilhete/OCR, clima) detalhadas no
+**[index.html](index.html)** seções 8–10.
+
 ### Pipeline 2 — Treinamento do modelo
-*(a detalhar)*
+
+Só **dois** modelos exigem treino sobre o dado do Nivaldo (o resto é modelo pronto):
+1. **Probabilidade de "passar do ponto"** (Dor 2) — *a detalhar*.
+2. **Perfil de compra / nudge (uplift)** — detalhado no **[index.html](index.html)** seção 12.
+
+Insight-chave: os modelos prontos entregam valor no dia 1 **e** geram o dataset rotulado
+que treina esses 2 modelos depois → respeita a Restrição #2 ("coleta enquanto resolve").
 
 ### Pipeline 3 — Inferência do modelo
-*(a detalhar)*
+
+- **(A) Nudge em tempo real** — perfil+prateleira → score de uplift → TTS na caixa de som.
+- **(B) Sugestão de compra no CEASA** — demanda prevista por perfil.
+- **(C) Atendimento no WhatsApp** — reativo (disponibilidade) + proativo (oferta) — *a detalhar*.
 
 ---
 

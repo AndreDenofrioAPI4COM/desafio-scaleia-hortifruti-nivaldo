@@ -216,11 +216,121 @@
   </ol>
 </div>
 
-<h2>8. Próximos passos</h2>
+<h2>8. Sub-pipeline · WhatsApp <span style="font-weight:400;font-size:.8em;color:var(--muted)">(Dor 1 + sinal de oferta)</span></h2>
+<div class="flow"><span class="tag">[WhatsApp: grupo + 1:1]</span>
+  1. Ingestão de mensagens (WhatsApp Business API / whatsapp-web.js)
+  2. Normalização de texto (limpeza, lowercasing, tratamento de emoji)
+  3. Detecção de intenção (intent classification — "é pergunta de disponibilidade?")
+  4. Extração de entidades (NER — qual fruta, quantidade)
+       ├─▶ RAMO REATIVO (responder):
+       │     5r. Consulta de estado (RAG sobre estoque: câmera + balança)
+       │     6r. Geração de resposta no tom do Nivaldo (persona prompting / few-shot)
+       └─▶ RAMO HISTÓRICO (aprender):
+             5h. Mineração do histórico → corpus de estilo (few-shot)
+             6h. Afinidade cliente-produto (association rules / collaborative filtering)</div>
+<table>
+  <tr><th>Etapa</th><th>Técnica</th><th>Pronto</th></tr>
+  <tr><td>Intenção</td><td>Intent classification / zero-shot</td><td>LLM zero-shot ou classificador leve (fastText/BERT)</td></tr>
+  <tr><td>Entidades</td><td>NER</td><td>spaCy ou extração via LLM</td></tr>
+  <tr><td>Resposta no tom</td><td>Persona prompting + RAG</td><td>LLM (Claude/GPT) — <strong>sem fine-tune</strong></td></tr>
+  <tr><td>Afinidade</td><td>Market-basket / collaborative filtering</td><td>Apriori / FP-Growth, ALS</td></tr>
+</table>
+
+<h2>9. Sub-pipeline · Bilhete do CEASA <span style="font-weight:400;font-size:.8em;color:var(--muted)">(entrada de estoque + custo)</span></h2>
+<div class="flow"><span class="tag">[Foto do bilhete]</span>
+  1. Captura (foto — único esforço manual, dentro dos 3 min)
+  2. Pré-processamento de imagem (deskew, denoise, correção de perspectiva, binarização)
+  3. OCR / leitura de documento (PaddleOCR / Tesseract / Document AI / VLM)
+  4. Parsing estruturado key-value (item, quantidade, custo — layout parsing)
+  5. Normalização de entidade (casar nome → catálogo — fuzzy matching / record linkage)
+  6. Saída: entrada de estoque + custo base por produto</div>
+<table>
+  <tr><th>Etapa</th><th>Técnica</th><th>Pronto</th></tr>
+  <tr><td>OCR</td><td>Document / scene OCR</td><td>PaddleOCR, Tesseract, Google Document AI</td></tr>
+  <tr><td>Extração estruturada</td><td>Key-value / layout parsing</td><td>Donut, LayoutLM ou VLM</td></tr>
+  <tr><td>Casar produto</td><td>Fuzzy string matching</td><td>RapidFuzz, record linkage</td></tr>
+</table>
+
+<h2>10. Sub-pipeline · Clima <span style="font-weight:400;font-size:.8em;color:var(--muted)">(feature de maturação e demanda)</span></h2>
+<div class="flow"><span class="tag">[API de clima]</span>
+  1. Coleta agendada (scheduled polling — atual + previsão)
+  2. Normalização (unidades, timezone)
+  3. Feature engineering:
+       • agora: temperatura, umidade, chuva
+       • acumulado até a PRÓXIMA ida ao CEASA (degree-hours / exposição térmica)
+  4. Alinhamento temporal ao calendário CEASA (seg/qua/sex → janela de risco)
+  5. Saída: vetor de features climáticas ──▶ modelo de "passar do ponto"</div>
+<p class="sub">Aqui <strong>não há modelo</strong> — é ingestão + engenharia de atributos. A feature <code>exposição térmica acumulada até a próxima reposição</code> é altamente preditiva de estrago.</p>
+
+<h2>11. Modelos prontos vs. treino próprio</h2>
+<p>Quase tudo se resolve com <strong>modelo pronto</strong>. Só <strong>dois</strong> componentes exigem treino sobre o dado do Nivaldo — e o design permite fazê-lo <strong>sem "parar para coletar"</strong>.</p>
+<table>
+  <tr><th>Componente</th><th>Treina?</th><th>Como</th></tr>
+  <tr><td>OCR bilhete · Clima · Detecção/tracking · Idade/gênero · Contagem/layout</td><td>❌ Pronto</td><td>PaddleOCR, API, YOLO+ByteTrack, MiVOLO, Grounding DINO</td></tr>
+  <tr><td>Qualidade / maturação</td><td>🟡 Depende</td><td>VLM/CLIP zero-shot (sem treino) ou fine-tune leve p/ alta precisão</td></tr>
+  <tr><td>Ações custom (pesagem, troca de $)</td><td>✅ Evitável</td><td>Fusão com a balança elimina a necessidade</td></tr>
+  <tr><td>Atendimento no tom do Nivaldo</td><td>🟡 Sem treino</td><td>LLM + RAG/few-shot sobre o histórico</td></tr>
+  <tr><td><strong>Probabilidade de "passar do ponto"</strong></td><td>✅ <strong>SIM</strong></td><td>Não existe pronto p/ as frutas/condições dele</td></tr>
+  <tr><td><strong>Perfil de compra / nudge</strong></td><td>✅ <strong>SIM</strong></td><td>Aprende da série de transações rotuladas</td></tr>
+</table>
+<div class="card warnbox">
+  <h3>Coleta ENQUANTO resolve (Restrição #2)</h3>
+  <p style="margin:0">Os modelos prontos entregam valor no <strong>dia 1</strong> <em>e</em> produzem o dataset rotulado (<code>"perfil X comprou P na qualidade Y"</code>) que treina os 2 modelos custom semanas depois. Nunca é preciso "coletar por X meses antes".</p>
+</div>
+
+<h2>12. Pipeline de Treinamento · Nudge &amp; Compra no CEASA</h2>
+<p>Primeiro modelo genuinamente treinado. O som na caixa é uma <strong>intervenção</strong> → o alvo não é "quem vai comprar", e sim <strong>em quem o empurrão mais aumenta a chance de comprar</strong> (<strong>uplift modeling</strong>, inferência causal).</p>
+<p style="font-size:1.05rem"><strong>Objetivo:</strong> aprender <em>P(compra | perfil, produto, qualidade, contexto)</em> para (A) disparar nudge sonoro em tempo real e (B) sugerir a compra no CEASA.</p>
+<div class="flow"><span class="tag">FONTE:</span> transações rotuladas (fusão câmera+balança) + não-compras (Ramo C: parou e NÃO comprou)
+  1. Rotulagem positivo/negativo (implicit feedback labeling)
+        ✓ comprou = positivo   |   ✗ parou/pegou e largou = negativo
+  2. Feature engineering
+        • pessoa: idade, gênero      • produto: tipo, qualidade, preço, disposição
+        • contexto: hora, clima, dia  • histórico: conversão perfil×produto
+        └─ FEATURE CROSSING (perfil × produto × qualidade)  ← "senhora × pera × qualidade>X%"
+  3. Mineração de associação / EDA (association rules — Apriori/FP-Growth, lift analysis)
+        └─ regras legíveis: "senhoras 50-60 → pera qualidade>80% (lift 3.2)"
+  4. Split temporal + balanceamento (temporal split, class weights / SMOTE)
+  5. TREINAMENTO:
+        5a. Propensão de compra   → Gradient Boosting (XGBoost/LightGBM) / Reg. Logística
+        5b. UPLIFT do nudge       → uplift / causal (T-learner, S-learner, uplift trees)
+        5c. Demanda p/ CEASA      → forecasting por produto (regressão / série temporal)
+  6. Avaliação (AUC, curva de uplift / Qini, calibração, backtesting)
+  7. Registro/versionamento do modelo (model registry)
+        ▼
+INFERÊNCIA
+  ├─ (A) NUDGE: perfil+prateleira na tela → score de uplift → threshold → TTS na caixa de som
+  └─ (B) CEASA: demanda prevista por perfil → sugestão de compra (produto/qualidade/quantidade)
+  └─ 8. LOOP FECHADO: comprou após o som? → contextual bandit / online learning (auto-melhora)</div>
+<table>
+  <tr><th>#</th><th>Etapa</th><th>Técnica</th><th>Pronto</th></tr>
+  <tr><td>1</td><td>Rotulagem</td><td>Implicit feedback (pos+neg)</td><td>— (regra sobre eventos)</td></tr>
+  <tr><td>2</td><td>Atributos</td><td>Feature crossing, encoding, agregação</td><td>pandas / Featuretools</td></tr>
+  <tr><td>3</td><td>Padrões legíveis</td><td>Association rules / lift</td><td>Apriori, FP-Growth (mlxtend)</td></tr>
+  <tr><td>4</td><td>Split</td><td>Temporal split + imbalance</td><td>scikit-learn, imbalanced-learn</td></tr>
+  <tr><td>5a</td><td>Propensão</td><td>Classificação</td><td>XGBoost / LightGBM, Logistic Reg.</td></tr>
+  <tr><td>5b</td><td><strong>Uplift do nudge</strong></td><td><strong>Uplift / causal inference</strong></td><td>CausalML, EconML, scikit-uplift</td></tr>
+  <tr><td>5c</td><td>Compra CEASA</td><td>Demand forecasting</td><td>Prophet, LightGBM, statsforecast</td></tr>
+  <tr><td>6</td><td>Avaliação</td><td>Qini / uplift curve, AUC</td><td>scikit-uplift, sklearn</td></tr>
+  <tr><td>8</td><td>Aprender online</td><td>Contextual bandit</td><td>Vowpal Wabbit, River</td></tr>
+</table>
+<div class="card">
+  <h3 style="margin-top:0">Três sacadas de defesa</h3>
+  <ul style="margin:0">
+    <li><strong>Uplift, não propensão pura:</strong> disparar o som pra quem já ia comprar é desperdício — o uplift mira nos <em>persuadíveis</em>.</li>
+    <li><strong>Os negativos vêm do Ramo C:</strong> "parou, pegou e largou" são os exemplos de "não comprou" — sem eles o modelo não aprende. Amarra câmera ↔ treino.</li>
+    <li><strong>Loop fechado = coleta enquanto resolve:</strong> começa com as regras de associação (passo 3) no dia 1 e o contextual bandit melhora sozinho a cada nudge.</li>
+  </ul>
+</div>
+<div class="card warnbox">
+  <h3>Nota de viés</h3>
+  <p style="margin:0">Perfilar por idade/gênero carrega risco de viés (por isso FairFace/MiVOLO nascem com esse cuidado). Reconhecer isso explicitamente fortalece a proposta.</p>
+</div>
+
+<h2>13. Próximos passos</h2>
 <div class="card">
   <ul style="margin:0">
-    <li>Sub-pipelines de coleta do <strong>WhatsApp</strong>, <strong>bilhete do CEASA (OCR)</strong> e <strong>clima</strong>.</li>
-    <li>Pipeline 2 — <strong>Treinamento</strong>: modelo de probabilidade de "passar do ponto" + estilo de resposta do varejista.</li>
+    <li>Pipeline 2 — <strong>modelo de probabilidade de "passar do ponto"</strong> (Dor 2) detalhado.</li>
     <li>Pipeline 3 — <strong>Inferência</strong>: atendimento reativo no WhatsApp + disparo proativo de ofertas.</li>
     <li>Diagrama final individual para submissão.</li>
   </ul>
