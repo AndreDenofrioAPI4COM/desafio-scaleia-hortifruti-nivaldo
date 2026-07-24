@@ -78,6 +78,35 @@
   .m3{background:linear-gradient(135deg,#8a4bbf,#5a2b86)}
   .mapsep{color:var(--green);font-size:1.8rem;font-weight:800}
 
+  /* master diagram slide */
+  .dwrap{display:flex;flex-direction:column;flex:1;min-height:0;margin-top:clamp(8px,1vw,14px)}
+  .noterow{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center;font-size:clamp(.74rem,.95vw,1rem);color:var(--muted)}
+  .noterow>span{display:flex;align-items:center;gap:6px}
+  .noterow .mk{font-size:.66rem;font-weight:800;padding:1px 7px;border-radius:5px;text-transform:uppercase}
+  .noterow .mk.pr{background:#e7f4ec;color:var(--green-d)}.noterow .mk.tr{background:var(--blue-bg);color:var(--blue)}
+  .noterow .bdg{font-size:.66rem;font-weight:800;padding:1px 7px;border-radius:999px;background:#fff;border:1px solid var(--line);color:var(--muted)}
+  .dgrid{display:flex;gap:clamp(8px,1vw,16px);align-items:stretch;flex:1;min-height:0;margin-top:clamp(10px,1.3vw,18px)}
+  .dcol{flex:1;display:flex;flex-direction:column;gap:clamp(5px,.6vw,9px);border:1px solid var(--line);
+    border-top-width:5px;border-radius:14px;padding:clamp(10px,1vw,16px);background:#faf9f3;min-width:0}
+  .dcol.g{border-top-color:var(--green)}.dcol.b{border-top-color:var(--blue)}.dcol.p{border-top-color:var(--purple)}
+  .dch{display:flex;align-items:center;gap:9px}
+  .dch .n{width:28px;height:28px;border-radius:8px;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex:0 0 auto}
+  .dcol.g .dch .n{background:var(--green)}.dcol.b .dch .n{background:var(--blue)}.dcol.p .dch .n{background:var(--purple)}
+  .dch b{font-size:clamp(1.05rem,1.4vw,1.5rem)}
+  .dstage{font-size:clamp(.62rem,.82vw,.82rem);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800;margin-top:3px}
+  .dnode{background:#fff;border:1px solid var(--line);border-radius:9px;padding:6px 10px;
+    font-size:clamp(.76rem,1vw,1.05rem);color:var(--ink2);line-height:1.32}
+  .dnode b{color:var(--ink)}
+  .dnode.store{border-color:var(--green);border-left-width:5px}
+  .dnode.model{border-color:var(--blue);border-left-width:4px}
+  .dnode.act{border-color:var(--purple);border-left-width:4px}
+  .dv{align-self:center;color:var(--muted);font-size:1rem;line-height:.5}
+  .dsep{align-self:center;font-size:clamp(1.3rem,1.8vw,2.2rem);font-weight:800;color:var(--muted);flex:0 0 auto}
+  .dt{display:inline-block;background:#eef4ef;border-radius:5px;padding:0 6px;font-size:.86em;font-weight:700;color:var(--green-d);white-space:nowrap;margin:1px 0}
+  .dcol.b .dt{background:var(--blue-bg);color:var(--blue)}.dcol.p .dt{background:var(--purple-bg);color:var(--purple)}
+  .loopbar{margin-top:clamp(8px,1vw,14px);background:var(--amber-bg);border:1px dashed var(--amber);
+    border-radius:10px;padding:clamp(8px,1vw,14px);font-size:clamp(.84rem,1.15vw,1.25rem);color:#6b4a12;text-align:center;font-weight:600}
+
   #bar{position:fixed;left:0;top:0;height:4px;background:var(--green);z-index:20;transition:width .25s}
   #counter{position:fixed;bottom:18px;right:24px;color:#8fa093;font-size:1rem;font-weight:700;z-index:20;font-variant-numeric:tabular-nums;mix-blend-mode:difference}
   #hint{position:fixed;bottom:18px;left:24px;color:#8fa093;font-size:.9rem;z-index:20;mix-blend-mode:difference}
@@ -442,6 +471,64 @@
     </div>
   </section>
 
+  <!-- 6d · MAPA COMPLETO -->
+  <section class="slide">
+    <div class="pad" style="padding:clamp(24px,2.6vw,46px) clamp(30px,3.4vw,64px)">
+      <div class="kicker">Mapa completo · as 3 pipelines em uma vista</div>
+      <h2 style="font-size:clamp(1.6rem,2.9vw,2.8rem)">Da coleta à inferência — cada etapa nomeia a técnica</h2>
+      <div class="dwrap">
+        <div class="noterow">
+          <span>→ fluxo de dados</span>
+          <span style="color:var(--amber)">↻ realimentação</span>
+          <span><span class="dt">técnica</span> etapa = técnica</span>
+          <span><span class="mk pr">pronto</span> modelo pronto</span>
+          <span><span class="mk tr">treinado</span> treinado no dado dele</span>
+          <span><span class="bdg">cadência</span> modo de execução</span>
+        </div>
+        <div class="dgrid">
+          <div class="dcol g">
+            <div class="dch"><span class="n">1</span><b>Coleta</b></div>
+            <div class="dstage">Fontes — já existem</div>
+            <div class="dnode">Romaneio <b>3×/sem</b> · Prateleira · Caixote · Zap · Balança · Câmera · Clima/CEASA</div>
+            <div class="dv">↓</div>
+            <div class="dstage">Pré-processamento &nbsp;<span class="mk pr" style="font-size:.62rem">pronto</span></div>
+            <div class="dnode"><span class="dt">OCR + record linkage</span> <span class="dt">segmentação + cor</span> <span class="dt">rotulagem por causa</span> <span class="dt">NER + intenção</span> <span class="dt">parsing PLU</span> <span class="dt">detecção + tracking</span> <span class="dt">fusão de sensores</span> <span class="dt">séries temporais</span></div>
+            <div class="dv">↓</div>
+            <div class="dstage">Saída</div>
+            <div class="dnode store"><b>🗄️ Dataset rotulado</b> — lotes (t₀+custo) · transações perfil×produto×qualidade×preço · rótulo de perda (caixote) · preferências · features de clima</div>
+          </div>
+          <div class="dsep">→</div>
+          <div class="dcol b">
+            <div class="dch"><span class="n">2</span><b>Treinamento</b></div>
+            <div class="dstage">Preparação</div>
+            <div class="dnode"><span class="dt">rotulagem</span> <span class="dt">feature engineering</span> <span class="dt">association rules</span> <span class="dt">split temporal</span></div>
+            <div class="dv">↓</div>
+            <div class="dstage">3 modelos &nbsp;<span class="mk tr" style="font-size:.62rem">treinado</span></div>
+            <div class="dnode model"><b>①</b> Perda — <span class="dt">análise de sobrevivência (hazard/lote)</span></div>
+            <div class="dnode model"><b>②</b> Oferta — <span class="dt">uplift / causal</span></div>
+            <div class="dnode model"><b>③</b> Perfil↔preferência — <span class="dt">recommender</span></div>
+            <div class="dv">↓</div>
+            <div class="dstage">Validação &amp; registro</div>
+            <div class="dnode"><span class="dt">backtest</span> <span class="dt">Qini / AUC</span> <span class="dt">model registry</span></div>
+          </div>
+          <div class="dsep">→</div>
+          <div class="dcol p">
+            <div class="dch"><span class="n">3</span><b>Inferência</b></div>
+            <div class="dstage">Entrada — tempo real</div>
+            <div class="dnode">msg no zap · estado do dia · perfil na banca · modelos versionados</div>
+            <div class="dv">↓</div>
+            <div class="dstage">Módulos inteligentes</div>
+            <div class="dnode"><span class="dt">agente RAG few-shot</span> <span class="dt">hazard &gt; limiar</span> <span class="dt">motor de oferta (uplift)</span> <span class="dt">recommender</span> <span class="dt">forecast</span></div>
+            <div class="dv">↓</div>
+            <div class="dstage">Ações</div>
+            <div class="dnode act">Responde no zap <b>(Dor 1)</b> · Oferta 1 toque <b>(Dor 2)</b> · Pós-venda recorrente · Nudge sonoro · Lista CEASA</div>
+          </div>
+        </div>
+        <div class="loopbar">↻ As ações voltam como rótulo para a Pipeline 1 — o caixote e os toques do dia seguinte re-treinam os modelos. <b>Coleta enquanto resolve.</b></div>
+      </div>
+    </div>
+  </section>
+
   <!-- 7 · O CICLO -->
   <section class="slide dark">
     <div class="pad center" style="text-align:center;align-items:center">
@@ -474,7 +561,7 @@
 
 <button class="nav" id="prev" aria-label="anterior">‹</button>
 <button class="nav" id="next" aria-label="próximo">›</button>
-<div id="counter">01 / 15</div>
+<div id="counter">01 / 16</div>
 <div id="hint">← → navegar · F tela cheia</div>
 
 <script>
