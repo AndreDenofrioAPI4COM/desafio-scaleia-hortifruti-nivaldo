@@ -381,6 +381,33 @@
     </div>
   </section>
 
+  <!-- 6b · INFERÊNCIA · NUDGE SONORO -->
+  <section class="slide">
+    <div class="pad">
+      <div class="kicker k3">Pipeline 3 · Inferência — sub-pipeline Nudge sonoro (tempo real)</div>
+      <h2>Do frame ao vivo ao "olha a pera, tá bonita!"</h2>
+      <div class="pipe">
+        <div class="stage b3"><h4><b>Percepção (ao vivo)</b></h4><ul>
+          <li>1 · <span class="tech">streaming de frame</span> (baixa latência)</li>
+          <li>2 · <span class="tech">detecção + tracking na ROI</span> da banca</li>
+          <li>3 · <span class="tech">estimativa de perfil (MiVOLO)</span></li>
+          <li>4 · <span class="tech">estado da prateleira</span> — que fruta bonita há agora</li></ul></div>
+        <div class="arrow" style="color:var(--purple)">→</div>
+        <div class="stage b3"><h4><b>Decisão</b></h4><ul>
+          <li>5 · <span class="tech">recommender</span> — perfil → preferência provável</li>
+          <li>6 · <span class="tech">uplift scoring</span> — o empurrão converte?</li>
+          <li>7 · <span class="tech">política (contextual bandit + threshold)</span> — escolhe a frase</li></ul></div>
+        <div class="arrow" style="color:var(--purple)">→</div>
+        <div class="stage b3"><h4><b>Ação + feedback</b></h4><ul>
+          <li>8 · <span class="tech">TTS</span> → caixa de som</li>
+          <li><i>"olha a pera, tá bonita!"</i></li>
+          <li>9 · <span class="tech">captura de resultado (balança)</span> — comprou?</li>
+          <li>↻ rótulo volta p/ o bandit e a Pipeline 1</li></ul></div>
+      </div>
+      <div class="amberbox">Dispara só quando <b>perfil persuadível</b> + <b>fruta certa disponível</b> coincidem. Cada disparo é um mini-experimento que treina o próximo.</div>
+    </div>
+  </section>
+
   <!-- 7 · O CICLO -->
   <section class="slide dark">
     <div class="pad center" style="text-align:center;align-items:center">
@@ -413,7 +440,7 @@
 
 <button class="nav" id="prev" aria-label="anterior">‹</button>
 <button class="nav" id="next" aria-label="próximo">›</button>
-<div id="counter">01 / 13</div>
+<div id="counter">01 / 14</div>
 <div id="hint">← → navegar · F tela cheia</div>
 
 <script>
