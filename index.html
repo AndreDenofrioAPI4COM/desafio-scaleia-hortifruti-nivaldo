@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desafio Scale IA — Hortifrúti do Nivaldo</title>
+<style>
+  :root{
+    --bg:#0f1417; --card:#161d22; --card2:#1b242b; --line:#26323a;
+    --txt:#e6edf1; --muted:#9fb0bb; --accent:#3fb950; --accent2:#58a6ff;
+    --warn:#e3b341; --code:#0b0f12;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#f6f8fa; --card:#ffffff; --card2:#f0f3f6; --line:#d7dee4;
+      --txt:#1b2429; --muted:#5a6a75; --accent:#1a7f37; --accent2:#0969da;
+      --warn:#9a6700; --code:#f0f3f6;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;font-size:16px}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px}
+  header{border-bottom:2px solid var(--accent);padding-bottom:20px;margin-bottom:8px}
+  .kicker{color:var(--accent);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:.78rem}
+  h1{font-size:2rem;margin:.2em 0 .1em;line-height:1.2}
+  h2{font-size:1.35rem;margin:2.2em 0 .6em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
+  h3{font-size:1.08rem;margin:1.6em 0 .4em;color:var(--accent2)}
+  .sub{color:var(--muted);font-size:1.02rem}
+  p{margin:.6em 0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:14px 0}
+  .grid{display:grid;gap:14px}
+  @media(min-width:640px){.grid.c2{grid-template-columns:1fr 1fr}}
+  .pill{display:inline-block;background:var(--card2);border:1px solid var(--line);
+    border-radius:999px;padding:3px 12px;font-size:.82rem;color:var(--muted);margin:2px 4px 2px 0}
+  .warnbox{border-left:4px solid var(--warn);background:var(--card2)}
+  .warnbox h3{color:var(--warn);margin-top:0}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.92rem;display:block;overflow-x:auto}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+  th{background:var(--card2);font-weight:600}
+  code,pre{font-family:"SF Mono",Menlo,Consolas,monospace}
+  code{background:var(--code);padding:1px 6px;border-radius:5px;font-size:.88em}
+  pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:16px;
+    overflow-x:auto;font-size:.84rem;line-height:1.5}
+  ol,ul{padding-left:1.3em}
+  li{margin:.3em 0}
+  .flow{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:16px;
+    overflow-x:auto;white-space:pre;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:.82rem;color:var(--txt)}
+  .tag{color:var(--accent)}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;
+    background:var(--accent);color:#04140a;border-radius:50%;font-weight:700;font-size:.85rem;margin-right:8px}
+  footer{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+  a{color:var(--accent2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">Desafio Scale IA · Sebrae Startups</div>
+  <h1>Hortifrúti do Nivaldo</h1>
+  <p class="sub">Documentação da proposta de <strong>pipelines de dados</strong> — submissão em construção.</p>
+  <div style="margin-top:10px">
+    <span class="pill">Coleta enquanto resolve</span>
+    <span class="pill">Sem PDV · Sem planilha</span>
+    <span class="pill">≤ 3 min/dia do Nivaldo</span>
+  </div>
+</header>
+
+<h2>1. O contexto</h2>
+<div class="card">
+  <p>Nivaldo tem um <strong>mini hortifrúti de esquina</strong>. Abastece no <strong>CEASA às 4h</strong>, três vezes por semana (<strong>seg / qua / sex</strong>). Precifica usando o custo do CEASA como base e faz <strong>todo o controle financeiro no olho</strong> — total do dia e caixa de cabeça, sem nenhum registro.</p>
+  <div class="grid c2" style="margin-top:10px">
+    <div class="card" style="margin:0">
+      <h3 style="margin-top:0">Dois tipos de cliente</h3>
+      <ul style="margin:0">
+        <li><strong>Transeuntes</strong> — compram na hora, na banca.</li>
+        <li><strong>Grupo de WhatsApp</strong> (~200 pessoas) — recebem fotos das frutas e ofertas.</li>
+      </ul>
+    </div>
+    <div class="card" style="margin:0">
+      <h3 style="margin-top:0">Rotina das 08:30 &amp; ofertas</h3>
+      <ul style="margin:0">
+        <li>Retira frutas passadas do ponto → caixote descartável.</li>
+        <li>Fotografa as prateleiras → manda no grupo.</li>
+        <li>Se a fruta vai perder e ele não vai ao CEASA no dia seguinte, dispara <strong>oferta de urgência</strong> a quem costuma comprar aquele item.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<h2>2. As duas dores a resolver</h2>
+<div class="grid c2">
+  <div class="card">
+    <h3 style="margin-top:0"><span class="num">1</span>Atendimento no WhatsApp</h3>
+    <p>Responder o cliente <strong>automaticamente e no tom do próprio varejista</strong> sobre a <strong>disponibilidade</strong> de uma fruta, sempre que perguntarem no WhatsApp.</p>
+  </div>
+  <div class="card">
+    <h3 style="margin-top:0"><span class="num">2</span>Previsão de "passar do ponto"</h3>
+    <p>Estimar a <strong>probabilidade de uma fruta estragar antes da próxima ida ao CEASA</strong> e disparar <strong>oferta</strong> aos clientes certos, sempre que for o caso.</p>
+  </div>
+</div>
+
+<h2>3. Restrições da Casa</h2>
+<div class="card warnbox">
+  <h3>⚠️ Filtros duros do desenho</h3>
+  <ol style="margin:0">
+    <li>O Nivaldo <strong>não quer PDV nem planilha</strong> — ele não sabe mexer.</li>
+    <li>Você <strong>perde a venda</strong> se disser "primeiro vamos coletar dados por X meses" → ou coleta <strong>enquanto</strong> soluciona uma dor, ou nem colete.</li>
+    <li>Nada que exija <strong>mais de ~3 min/dia</strong> do Nivaldo.</li>
+  </ol>
+</div>
+
+<h2>4. Arquitetura — três pipelines</h2>
+<div class="flow"><span class="tag">[1. COLETA]</span> ──alimenta──▶ <span class="tag">[2. TREINAMENTO]</span> ──gera modelo──▶ <span class="tag">[3. INFERÊNCIA]</span>
+     │                                                                │
+     └────────────── dados frescos em tempo real ────────────────────┘</div>
+<p class="sub">Este documento detalha, por enquanto, o <strong>Pipeline 1 — Coleta</strong>. Treinamento e Inferência entram nas próximas versões.</p>
+
+<h2>5. Pipeline de Coleta — cinco fontes</h2>
+<table>
+  <tr><th>#</th><th>Fonte</th><th>Sinal capturado</th><th>Formato</th><th>Alimenta</th></tr>
+  <tr><td>1</td><td><strong>Câmera full-time</strong> na frente da banca</td><td>Fluxo de pessoas, interesse, estado das prateleiras</td><td>Vídeo contínuo</td><td>Dor 2 + demanda</td></tr>
+  <tr><td>2</td><td><strong>Balança inteligente</strong></td><td>Produto, peso, quantidade, preço, timestamp</td><td>Evento estruturado</td><td>Dor 2 + financeiro</td></tr>
+  <tr><td>3</td><td><strong>WhatsApp do Nivaldo</strong></td><td>Perguntas, respostas dele, ofertas</td><td>Texto + imagens</td><td>Dor 1</td></tr>
+  <tr><td>4</td><td><strong>Fotos do bilhete</strong> de compra no CEASA</td><td>Itens, quantidade, custo</td><td>Imagem</td><td>Dor 2 (entrada + custo)</td></tr>
+  <tr><td>5</td><td><strong>Clima</strong> (dia atual + previsão)</td><td>Temperatura, umidade, chuva</td><td>Série temporal (API)</td><td>Dor 2 (maturação + fluxo)</td></tr>
+</table>
+<p class="sub">Todas coletam <strong>enquanto o Nivaldo trabalha normalmente</strong>. Câmera, balança e clima são automáticas (0 min); WhatsApp ele já usa; único esforço extra é fotografar o bilhete do CEASA — dentro dos 3 min/dia.</p>
+
+<h2>6. Sub-pipeline da Câmera</h2>
+<p>Lê a gravação do dia e emite <strong>um registro estruturado por segundo</strong> → série temporal. Parte das perguntas se responde em <strong>frame isolado</strong> (1 fps); ações e interesse pedem <strong>clipes curtos</strong> (modelos temporais).</p>
+<div class="flow"><span class="tag">[Vídeo do dia]</span>
+  └─ Amostragem temporal (frame sampling @1fps) ─────────▶ frames
+  └─ Extração de clipes (sliding window ~2–5s) ──────────▶ clipes
+       ├─ RAMO A · Layout da banca        (por frame)
+       ├─ RAMO B · Fluxo de pessoas       (frame + tracking)
+       └─ RAMO C · Interesse &amp; compra    (por clipe, temporal)
+  └─ Fusão temporal + de-duplicação (tracking / ReID)
+  └─ Agregação em série temporal (1 linha/segundo) ──────▶ pipeline de treino</div>
+
+<h3>Demanda → técnica → modelo pronto</h3>
+<table>
+  <tr><th>Demanda</th><th>Técnica</th><th>Modelos prontos</th></tr>
+  <tr><td>Proporção de frutas</td><td>Detecção + classificação → contagem relativa</td><td>YOLOv8/v11, RT-DETR, Grounding DINO (open-vocabulary)</td></tr>
+  <tr><td>Qualidade / maturação</td><td>Ripeness classification</td><td>CNN fine-tuned (EfficientNet), CLIP zero-shot, VLM</td></tr>
+  <tr><td>Quantidade de cada fruta</td><td>Contagem por detecção / segmentação</td><td>YOLO + counting, SAM 2, Mask R-CNN, CSRNet (denso)</td></tr>
+  <tr><td>Disposição / arranjo</td><td>Análise espacial / planograma</td><td>Bounding boxes → zoneamento</td></tr>
+  <tr><td>Quantas pessoas</td><td>Detecção + tracking (evita recontagem)</td><td>YOLO + ByteTrack / BoT-SORT / DeepSORT</td></tr>
+  <tr><td>Gênero / idade</td><td>Classificação facial-corporal</td><td>MiVOLO, InsightFace, FairFace</td></tr>
+  <tr><td>Quem demonstra interesse</td><td>Dwell time + direção do olhar + pose</td><td>ByteTrack + L2CS-Net / Gaze360 + RTMPose / MediaPipe</td></tr>
+  <tr><td>Nível de interesse (parou→pegou→pesou)</td><td>Reconhecimento de ação + interação mão-objeto</td><td>VideoMAE, SlowFast, X3D (MMAction2), 100DOH</td></tr>
+  <tr><td>Compra efetiva (troca de dinheiro)</td><td>Action recognition + <strong>fusão com a balança</strong></td><td>Event correlation (balança = gabarito da venda)</td></tr>
+</table>
+<div class="card">
+  <h3 style="margin-top:0">Duas decisões de arquitetura</h3>
+  <ul style="margin:0">
+    <li><strong>Híbrido specialists + VLM:</strong> specialists (YOLO+ByteTrack) para contar/rastrear com precisão; VLM (Qwen2-VL, InternVL, GPT-4o, Claude) para o semântico ("qualidade", "nível de interesse").</li>
+    <li><strong>A balança é o gabarito da compra:</strong> "compra efetiva" pela câmera é ruidosa — cruzar com o evento da balança dá o rótulo real da venda quase de graça.</li>
+  </ul>
+</div>
+
+<h2>7. Sub-pipeline da Balança (fusão de sensores)</h2>
+<p>A balança é o <strong>gatilho e a âncora temporal</strong>: cada pesagem dispara a correlação com a câmera para produzir uma <strong>linha rotulada de venda real</strong>.</p>
+<p style="font-size:1.05rem"><strong>Objetivo:</strong> <em>"Pessoa do perfil X comprou o produto P na qualidade Y no momento Z (peso W, quantidade Q, preço)."</em></p>
+<div class="flow"><span class="tag">[Balança]</span> evento: {código_produto, peso, quantidade, preço, timestamp Z}
+  1. Ingestão orientada a evento (event-driven capture) — o TRIGGER
+  2. Sincronização temporal (timestamp sync / temporal window join) — janela [Z−Δ, Z+Δ]
+  3. Atribuição do comprador (ROI da balança + tracking / ReID) = X
+  4. Extração do perfil X   (Ramo B — MiVOLO / InsightFace)
+  5. Extração da qualidade Y (Ramo A, filtrado por código_produto)
+  6. Record linkage / feature fusion
+  7. Persistência como venda rotulada ──▶ série de transações</div>
+
+<h3>Etapa → técnica → ferramenta</h3>
+<table>
+  <tr><th>#</th><th>Etapa</th><th>Técnica</th><th>Pronto</th></tr>
+  <tr><td>1</td><td>Captura do evento</td><td>Event-driven ingestion / fila</td><td>Webhook da balança → MQTT/Kafka-like</td></tr>
+  <tr><td>2</td><td>Alinhar com a câmera</td><td>Timestamp sync + temporal window join</td><td>Join por janela (Δ ~2–5s)</td></tr>
+  <tr><td>3</td><td>Quem é o comprador</td><td>ROI espacial + tracking + ReID</td><td>ByteTrack / BoT-SORT + OSNet</td></tr>
+  <tr><td>4</td><td>Perfil X</td><td>Classificação idade/gênero</td><td>MiVOLO, InsightFace, FairFace</td></tr>
+  <tr><td>5</td><td>Qualidade Y</td><td>Ripeness classification do produto P</td><td>CNN / CLIP zero-shot / VLM</td></tr>
+  <tr><td>6</td><td>Montar o registro</td><td>Record linkage / data fusion</td><td>Join (chave = track_id + timestamp)</td></tr>
+  <tr><td>7</td><td>Guardar</td><td>Append em série temporal</td><td>Store append-only</td></tr>
+</table>
+
+<h3>Registro de saída</h3>
+<pre>{
+  "timestamp": "2026-07-24T09:14:32",   // momento Z
+  "produto": "banana_nanica",           // código da balança
+  "peso_kg": 1.30,                      // W
+  "quantidade": 1,                      // Q
+  "preco_venda": 3.89,                  // preço cobrado do cliente
+  "custo_ceasa": 1.10,                  // C (fonte 4 — bilhete)
+  "margem": 2.79,                       // derivada: preco_venda − custo
+  "comprador_perfil": {"genero": "F", "faixa_idade": "50-60"},  // X (câmera)
+  "qualidade": "madura",                // Y (câmera — ripeness)
+  "canal": "transeunte"
+}</pre>
+
+<h3>O que quantidade + preço destravam</h3>
+<table>
+  <tr><th>Campo</th><th>Vira, por agregação…</th><th>Resolve</th></tr>
+  <tr><td><code>preco_venda × quantidade</code></td><td>Faturamento do dia</td><td>O "total no olho" → automático</td></tr>
+  <tr><td><code>preco_venda − custo_ceasa</code></td><td>Margem por produto</td><td>A precificação feita de cabeça</td></tr>
+  <tr><td><code>quantidade</code> por produto/hora</td><td>Taxa de vazão (sell-through)</td><td>Dor 2: velocidade de venda × risco de estragar</td></tr>
+</table>
+
+<div class="card warnbox">
+  <h3>Pontos críticos (onde a fusão quebra)</h3>
+  <ol style="margin:0">
+    <li><strong>Sincronia de relógio</strong> balança↔câmera é obrigatória — sem timestamp alinhado, a fusão não fecha.</li>
+    <li><strong>Atribuição do comprador é ambígua</strong> com várias pessoas na frente → ROI da balança + tracking resolvem escolhendo quem está <em>no balcão</em> no instante Z.</li>
+    <li><strong>Qualidade Y é do produto, não da pessoa</strong> — o código da balança diz <em>qual</em> produto olhar no Ramo A.</li>
+  </ol>
+</div>
+
+<h2>8. Próximos passos</h2>
+<div class="card">
+  <ul style="margin:0">
+    <li>Sub-pipelines de coleta do <strong>WhatsApp</strong>, <strong>bilhete do CEASA (OCR)</strong> e <strong>clima</strong>.</li>
+    <li>Pipeline 2 — <strong>Treinamento</strong>: modelo de probabilidade de "passar do ponto" + estilo de resposta do varejista.</li>
+    <li>Pipeline 3 — <strong>Inferência</strong>: atendimento reativo no WhatsApp + disparo proativo de ofertas.</li>
+    <li>Diagrama final individual para submissão.</li>
+  </ul>
+</div>
+
+<footer>
+  Desafio Scale IA — Sebrae Startups · Documento de trabalho (submissão em construção).<br>
+  Enunciado oficial: docs.google.com · Submissão: appscaleia.sebraestartups.com.br
+</footer>
+
+</div>
+</body>
+</html>

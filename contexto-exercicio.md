@@ -68,7 +68,17 @@ para automaticamente mandar **oferta** pra clientes do varejista **sempre que fo
 > A entrega do exercício é a **sugestão dessas pipelines**.
 
 ### Pipeline 1 — Coleta de informação
-*(a detalhar)*
+
+Cinco fontes (todas coletam *enquanto* o Nivaldo trabalha — respeitando as restrições):
+
+1. **Câmera full-time** na frente da banca (vídeo) — layout, fluxo, interesse.
+2. **Balança inteligente** (evento) — produto, peso, quantidade, preço, timestamp.
+3. **WhatsApp do Nivaldo** (texto+imagem) — perguntas, respostas dele, ofertas.
+4. **Fotos do bilhete** de compra no CEASA (imagem) — itens, quantidade, custo.
+5. **Clima** dia + previsão (API) — temperatura, umidade, chuva.
+
+Detalhamento completo das sub-pipelines (câmera e balança), com técnicas e modelos
+prontos por etapa, no **[index.html](index.html)** (documento de submissão).
 
 ### Pipeline 2 — Treinamento do modelo
 *(a detalhar)*
