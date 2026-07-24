@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>O Caixote do Nivaldo — Pitch Deck</title>
+<title>Nivaldo — 3 Pipelines de Dados</title>
 <style>
   :root{
     --cream:#f7f4ec; --ink:#1c2b22; --ink2:#3a4a40; --muted:#6b7d70;
     --green:#1f8a4c; --green-d:#126334; --amber:#d98a1f; --amber-bg:#fbeecd;
+    --blue:#2451b8; --blue-bg:#e7eefb; --purple:#7a3ea8; --purple-bg:#f0e6f8;
     --line:#dfe0c8; --card:#ffffff; --dark:#14231a; --dark-soft:#1d3327;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -15,107 +16,76 @@
   body{background:#0c1410;color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     overflow:hidden;-webkit-font-smoothing:antialiased}
-
-  /* Slide stage: 16:9 centered */
   #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px}
-  .slide{display:none;width:min(1120px,96vw);aspect-ratio:16/9;background:var(--cream);
-    border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden;
-    position:relative}
+  .slide{display:none;width:min(1160px,96vw);aspect-ratio:16/9;background:var(--cream);
+    border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.5);overflow:hidden;position:relative}
   .slide.active{display:block}
-  .pad{position:absolute;inset:0;padding:clamp(24px,4.2vw,56px);display:flex;flex-direction:column}
-
-  /* dark section slides */
+  .pad{position:absolute;inset:0;padding:clamp(22px,3.8vw,50px);display:flex;flex-direction:column}
   .slide.dark{background:var(--dark);color:var(--cream)}
-  .slide.dark .kicker{color:#8fe0a8}
-  .slide.dark .muted{color:#9fc0ac}
+  .slide.dark .kicker{color:#8fe0a8}.slide.dark .muted{color:#9fc0ac}
   .slide.dark h1,.slide.dark h2{color:#fff}
 
-  .kicker{color:var(--green);font-weight:800;letter-spacing:.14em;text-transform:uppercase;
-    font-size:clamp(.6rem,1.1vw,.8rem);margin-bottom:.5em}
-  h1{font-size:clamp(1.8rem,4.6vw,3.4rem);line-height:1.06;font-weight:800;letter-spacing:-.02em}
-  h2{font-size:clamp(1.3rem,3.1vw,2.2rem);line-height:1.1;font-weight:800;letter-spacing:-.01em;margin-bottom:.15em}
-  .lead{font-size:clamp(.95rem,1.7vw,1.25rem);color:var(--ink2);line-height:1.45;max-width:42ch}
-  .muted{color:var(--muted)}
-  p{line-height:1.5}
-  strong{color:var(--green-d)}
+  .kicker{font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+    font-size:clamp(.6rem,1.05vw,.78rem);margin-bottom:.45em;color:var(--green)}
+  .kicker.k1{color:var(--green)}.kicker.k2{color:var(--blue)}.kicker.k3{color:var(--purple)}
+  h1{font-size:clamp(1.8rem,4.6vw,3.3rem);line-height:1.05;font-weight:800;letter-spacing:-.02em}
+  h2{font-size:clamp(1.25rem,2.9vw,2.05rem);line-height:1.1;font-weight:800;letter-spacing:-.01em;margin-bottom:.1em}
+  .lead{font-size:clamp(.92rem,1.6vw,1.18rem);color:var(--ink2);line-height:1.4;max-width:52ch}
+  .muted{color:var(--muted)} p{line-height:1.45} strong{color:var(--green-d)}
   .slide.dark strong{color:#8fe0a8}
-  b{font-weight:700}
 
-  .row{display:flex;gap:clamp(12px,2vw,26px)}
-  .col{flex:1;min-width:0}
-  .grow{flex:1;min-height:0}
-  .center{align-items:center;justify-content:center;text-align:center}
+  .row{display:flex;gap:clamp(10px,1.7vw,20px)}.col{flex:1;min-width:0}
+  .grow{flex:1;min-height:0}.center{align-items:center;justify-content:center;text-align:center}
   .mt{margin-top:auto}
 
-  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
-    padding:clamp(12px,1.6vw,20px);box-shadow:0 2px 10px rgba(0,0,0,.03)}
-  .card h3{font-size:clamp(.95rem,1.5vw,1.15rem);margin-bottom:.3em;color:var(--ink)}
-  .card p{font-size:clamp(.78rem,1.25vw,.98rem);color:var(--ink2)}
+  /* pipeline stage columns */
+  .pipe{display:flex;gap:10px;align-items:stretch;flex:1;min-height:0;margin-top:14px}
+  .stage{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:11px 12px;display:flex;flex-direction:column}
+  .stage h4{font-size:.64rem;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px;color:var(--muted)}
+  .stage h4 b{display:block;font-size:.9rem;letter-spacing:0;text-transform:none;color:var(--ink);margin-top:2px}
+  .stage ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+  .stage li{font-size:clamp(.66rem,1.05vw,.83rem);color:var(--ink2);line-height:1.25}
+  .stage li b{color:var(--ink)}
+  .tech{display:inline-block;background:#eef4ef;border-radius:6px;padding:1px 6px;font-size:.72em;
+    font-weight:700;color:var(--green-d);white-space:nowrap}
+  .arrow{align-self:center;color:var(--green);font-size:1.5rem;font-weight:800;flex:0 0 auto}
+  .k2 .tech,.stage.b2 .tech{background:var(--blue-bg);color:var(--blue)}
+  .k3 .tech,.stage.b3 .tech{background:var(--purple-bg);color:var(--purple)}
 
-  .tag{display:inline-block;font-size:.62rem;font-weight:800;letter-spacing:.08em;
-    text-transform:uppercase;padding:3px 9px;border-radius:999px;background:#e5f3ea;color:var(--green-d)}
-  .tag.free{background:#e7eefb;color:#2451b8}
-  .tag.f2{background:var(--amber-bg);color:#8a5a10}
-  .tag.warn{background:#fde8e2;color:#b1401f}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(12px,1.6vw,18px)}
+  .card h3{font-size:clamp(.92rem,1.5vw,1.1rem);margin-bottom:.3em}
+  .card p{font-size:clamp(.76rem,1.2vw,.94rem);color:var(--ink2)}
+  .tag{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+    padding:3px 9px;border-radius:999px;background:#e5f3ea;color:var(--green-d)}
+  .tag.b{background:var(--blue-bg);color:var(--blue)}.tag.p{background:var(--purple-bg);color:var(--purple)}
+  .tag.a{background:var(--amber-bg);color:#8a5a10}
 
-  /* photo placeholder */
-  .photo{border:2px dashed #c3cdb8;border-radius:12px;background:
-    repeating-linear-gradient(45deg,#eef0e2,#eef0e2 10px,#e9ebdc 10px,#e9ebdc 20px);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    color:#8a9a83;text-align:center;padding:10px;gap:6px;min-height:0}
-  .photo .cam{font-size:1.5rem;opacity:.7}
-  .photo .cap{font-size:clamp(.62rem,1vw,.78rem);font-weight:600;line-height:1.25}
-  .photo .fr{font-size:.56rem;letter-spacing:.12em;font-weight:800;color:#b0be9f}
-
-  /* pipeline flow */
-  .flowcol{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-  .flowcol h4{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:7px}
-  .flowcol ul{list-style:none}
-  .flowcol li{font-size:clamp(.66rem,1.05vw,.82rem);color:var(--ink2);padding:3px 0;border-bottom:1px dotted var(--line)}
-  .flowcol li:last-child{border:0}
-  .arrow{align-self:center;color:var(--green);font-size:1.4rem;font-weight:800;flex:0 0 auto}
-
-  table{width:100%;border-collapse:collapse;font-size:clamp(.68rem,1.15vw,.9rem)}
-  th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);vertical-align:top}
-  th{color:var(--muted);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase}
-  td b{color:var(--ink)}
-
-  .timeline{display:flex;gap:10px;flex:1;min-height:0}
-  .tl{flex:1;display:flex;flex-direction:column;gap:8px}
-  .tl .when{font-weight:800;color:var(--green);font-size:clamp(.9rem,1.7vw,1.3rem)}
-  .tl .what{font-weight:700;font-size:clamp(.78rem,1.2vw,.98rem)}
-  .tl .desc{font-size:clamp(.66rem,1vw,.82rem);color:var(--ink2)}
-
-  .big{font-size:clamp(2.4rem,7vw,5rem);font-weight:800;color:var(--green);letter-spacing:-.03em;line-height:1}
-  .chat{background:#dcf5d6;border-radius:14px 14px 14px 4px;padding:10px 14px;font-size:clamp(.72rem,1.2vw,.95rem);max-width:80%}
-  .chat.them{background:#fff;border:1px solid var(--line);border-radius:14px 14px 4px 14px;margin-left:auto}
-
-  .btnrow{display:flex;gap:8px;flex-wrap:wrap}
-  .btn{font-size:.7rem;font-weight:800;padding:7px 12px;border-radius:8px;letter-spacing:.04em}
-  .btn.go{background:var(--green);color:#fff}
-  .btn.alt{background:#eee;color:#444}
-
-  .amberbox{background:var(--amber-bg);border-left:5px solid var(--amber);border-radius:8px;
-    padding:clamp(10px,1.5vw,16px);font-size:clamp(.76rem,1.3vw,1rem);color:#6b4a12}
-
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.6vw,18px)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vw,18px)}
   ul.clean{list-style:none;display:flex;flex-direction:column;gap:6px}
-  ul.clean li{font-size:clamp(.74rem,1.2vw,.95rem);color:var(--ink2);padding-left:20px;position:relative}
-  ul.clean li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:800}
+  ul.clean li{font-size:clamp(.72rem,1.15vw,.92rem);color:var(--ink2);padding-left:19px;position:relative;line-height:1.3}
+  ul.clean li::before{content:"▸";position:absolute;left:0;color:var(--green);font-weight:800}
+  .amberbox{background:var(--amber-bg);border-left:5px solid var(--amber);border-radius:8px;
+    padding:clamp(9px,1.4vw,15px);font-size:clamp(.74rem,1.25vw,.98rem);color:#6b4a12;margin-top:12px}
 
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.5vw,18px)}
-  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(10px,1.6vw,20px)}
+  .big{font-size:clamp(2.2rem,6vw,4.2rem);font-weight:800;color:var(--green);letter-spacing:-.03em;line-height:1}
+  .maparrow{display:flex;align-items:center;gap:12px;margin-top:auto}
+  .mapbox{flex:1;border-radius:14px;padding:16px 18px;color:#fff}
+  .mapbox h3{font-size:clamp(1rem,1.8vw,1.4rem);margin-bottom:4px}
+  .mapbox p{font-size:clamp(.68rem,1.1vw,.85rem);opacity:.9;line-height:1.3}
+  .m1{background:linear-gradient(135deg,#1f8a4c,#126334)}
+  .m2{background:linear-gradient(135deg,#2f6fd6,#1c3f86)}
+  .m3{background:linear-gradient(135deg,#8a4bbf,#5a2b86)}
+  .mapsep{color:var(--green);font-size:1.8rem;font-weight:800}
 
-  /* chrome */
   #bar{position:fixed;left:0;top:0;height:4px;background:var(--green);z-index:20;transition:width .25s}
-  #counter{position:fixed;bottom:14px;right:18px;color:#7d8f82;font-size:.72rem;font-weight:700;
-    letter-spacing:.05em;z-index:20;font-variant-numeric:tabular-nums}
+  #counter{position:fixed;bottom:14px;right:18px;color:#7d8f82;font-size:.72rem;font-weight:700;z-index:20;font-variant-numeric:tabular-nums}
   #hint{position:fixed;bottom:14px;left:18px;color:#5a6b5e;font-size:.68rem;z-index:20}
   .nav{position:fixed;top:50%;transform:translateY(-50%);z-index:20;background:rgba(255,255,255,.12);
     color:#fff;border:none;width:42px;height:64px;border-radius:10px;cursor:pointer;font-size:1.4rem;
     display:flex;align-items:center;justify-content:center;transition:background .2s}
-  .nav:hover{background:rgba(255,255,255,.28)}
-  #prev{left:12px}#next{right:12px}
-  .foot{position:absolute;bottom:14px;left:clamp(24px,4.2vw,56px);font-size:.6rem;color:#a7b3a0;letter-spacing:.05em}
+  .nav:hover{background:rgba(255,255,255,.28)}#prev{left:12px}#next{right:12px}
   @media (max-width:640px){.nav{display:none}}
 </style>
 </head>
@@ -127,377 +97,315 @@
   <section class="slide dark active">
     <div class="pad center" style="text-align:center;align-items:center">
       <div class="kicker">Desafio Sebrae Startups · AppScale IA · 24 jul 2026</div>
-      <h1>O Caixote do Nivaldo</h1>
-      <p class="lead" style="margin-top:18px;max-width:56ch;text-align:center">
-        Como um hortifrúti de esquina vira uma <strong>operação orientada a dados</strong> —
-        sem planilha, sem PDV e sem 3 minutos a mais no dia dele.</p>
-      <div style="margin-top:26px" class="muted">Um pipeline que <b>coleta enquanto resolve</b>.</div>
-    </div>
-  </section>
-
-  <!-- 2 · UM DIA NA VIDA -->
-  <section class="slide">
-    <div class="pad">
-      <div class="kicker">Contexto</div>
-      <h2>Um dia na vida do Nivaldo</h2>
-      <p class="lead">A rotina já existe. A solução <strong>entra nela — não mexe nela.</strong></p>
-      <div class="timeline" style="margin-top:18px">
-        <div class="tl"><div class="when">4:00</div><div class="what">CEASA</div>
-          <div class="desc">Compra 3×/semana e sai com o romaneio na mão (Seg · Qua · Sex).</div>
-          <div class="photo grow"><span class="cam">📷</span><span class="cap">romaneio na mão dele</span><span class="fr">FOTO REAL</span></div></div>
-        <div class="tl"><div class="when">6:30</div><div class="what">Caixote + fotos</div>
-          <div class="desc">Separa o que passou do ponto e fotografa a prateleira pro grupo.</div>
-          <div class="photo grow"><span class="cam">📷</span><span class="cap">prateleira de frente</span><span class="fr">FOTO REAL</span></div></div>
-        <div class="tl"><div class="when">dia</div><div class="what">Venda no olho</div>
-          <div class="desc">Preço de cabeça, maquininha só mostra o total, gaveta de dinheiro.</div>
-          <div class="photo grow"><span class="cam">📷</span><span class="cap">banca em funcionamento</span><span class="fr">FOTO REAL</span></div></div>
-        <div class="tl"><div class="when">tarde</div><div class="what">Oferta no zap</div>
-          <div class="desc">Quando percebe que a fruta vai perder, manda oferta pro grupo (~200).</div>
-          <div class="photo grow"><span class="cam">📷</span><span class="cap">print do grupo</span><span class="fr">FOTO REAL</span></div></div>
+      <h1>Hortifrúti do Nivaldo</h1>
+      <p class="lead" style="margin-top:16px;max-width:56ch;text-align:center">
+        Uma arquitetura de dados em <strong>três pipelines</strong> —
+        Coleta, Treinamento e Inferência — para automatizar as duas dores dele.</p>
+      <div class="maparrow" style="margin-top:32px;width:100%;max-width:820px">
+        <div class="mapbox m1"><h3>1 · Coleta</h3></div>
+        <div class="mapsep">→</div>
+        <div class="mapbox m2"><h3>2 · Treinamento</h3></div>
+        <div class="mapsep">→</div>
+        <div class="mapbox m3"><h3>3 · Inferência</h3></div>
       </div>
     </div>
   </section>
 
-  <!-- 3 · DUAS DORES -->
+  <!-- 2 · O PROBLEMA -->
   <section class="slide">
     <div class="pad">
       <div class="kicker">O problema</div>
-      <h2>As duas dores que ele paga pra resolver</h2>
-      <div class="row grow" style="margin-top:16px">
-        <div class="col card" style="display:flex;flex-direction:column">
-          <span class="tag warn">Dor 1</span>
+      <h2>Duas dores, três restrições</h2>
+      <div class="row grow" style="margin-top:14px">
+        <div class="col card"><span class="tag a">Dor 1</span>
           <h3 style="margin-top:8px">Pergunta sem resposta</h3>
-          <p>Cliente pergunta no zap; o Nivaldo está pesando, atendendo, no CEASA.
-             Cada pergunta no vácuo é <strong>venda perdida</strong> — e cliente que migra.</p>
-          <div class="photo grow" style="margin-top:10px"><span class="cam">💬</span><span class="cap">"tem manga boa?" → sem resposta</span><span class="fr">FOTO REAL</span></div>
-        </div>
-        <div class="col card" style="display:flex;flex-direction:column">
-          <span class="tag warn">Dor 2</span>
+          <p>Cliente pergunta no zap sobre disponibilidade; o Nivaldo está atendendo/no CEASA.
+             Cada pergunta no vácuo é venda perdida.</p></div>
+        <div class="col card"><span class="tag a">Dor 2</span>
           <h3 style="margin-top:8px">O caixote de toda manhã</h3>
-          <p>Toda fruta descartada foi comprada com o dinheiro dele no CEASA.
-             Cada caixote é <strong>margem no lixo</strong> — e ele só percebe quando já é tarde.</p>
-          <div class="photo grow" style="margin-top:10px"><span class="cam">🗑️</span><span class="cap">caixote cheio de fruta passada</span><span class="fr">FOTO REAL</span></div>
-        </div>
+          <p>Fruta que passa do ponto antes da próxima ida ao CEASA vira margem no lixo.
+             Prever e ofertar a tempo.</p></div>
+        <div class="col card" style="background:#faf6ec">
+          <h3>Restrições da casa</h3>
+          <ul class="clean" style="margin-top:8px">
+            <li>Sem PDV, sem planilha</li>
+            <li>Coleta <b>enquanto</b> resolve — nada de "X meses"</li>
+            <li>≤ 3 min/dia do Nivaldo</li></ul></div>
       </div>
     </div>
   </section>
 
-  <!-- 4 · O CAIXOTE É O HERÓI -->
-  <section class="slide dark">
-    <div class="pad center" style="text-align:center;align-items:center">
-      <div class="kicker">A virada</div>
-      <h2 style="max-width:20ch">Às 6:30, o Nivaldo já rotula o dataset — sem saber.</h2>
-      <p class="lead muted" style="text-align:center;max-width:56ch;margin-top:16px">
-        A foto do caixote é o desfecho de cada fruta. Ninguém precisa coletar dados por meses:
-        o <strong>ground truth nasce todo dia, de graça</strong>, num gesto que ele já faz.</p>
-      <div class="big" style="margin-top:20px">ground&nbsp;truth&nbsp;grátis</div>
-    </div>
-  </section>
-
-  <!-- 5 · DE ONDE VEM CADA DADO -->
+  <!-- 3 · VISÃO GERAL -->
   <section class="slide">
     <div class="pad">
-      <div class="kicker">Coleta · custo pro Nivaldo ≈ zero</div>
-      <h2>De onde vem cada dado</h2>
+      <div class="kicker">Visão geral</div>
+      <h2>As três pipelines em uma vista</h2>
       <div class="grid3 grow" style="margin-top:14px">
-        <div class="card"><span class="tag">já existe</span><h3>Romaneio</h3><p>foto, 3×/semana, ~15 s</p></div>
-        <div class="card"><span class="tag">já existe</span><h3>Prateleira 6:30</h3><p>foto que ele já tira pro grupo</p></div>
-        <div class="card"><span class="tag">já existe</span><h3>Caixote</h3><p>foto do descarte já separado</p></div>
-        <div class="card"><span class="tag">já existe</span><h3>Grupo do zap</h3><p>~200 clientes, histórico de conversas</p></div>
-        <div class="card"><span class="tag f2">fase 2</span><h3>Balança (PLU)</h3><p>log de venda por produto e hora</p></div>
-        <div class="card"><span class="tag free">grátis</span><h3>Dados públicos</h3><p>preço CEASA histórico + clima</p></div>
+        <div class="card" style="border-top:4px solid var(--green)">
+          <span class="tag">Pipeline 1</span><h3 style="margin-top:6px">Coleta</h3>
+          <p>Capta o dado onde ele já nasce (fotos, zap, balança, clima) e pré-processa com técnicas nomeadas até virar dataset rotulado.</p></div>
+        <div class="card" style="border-top:4px solid var(--blue)">
+          <span class="tag b">Pipeline 2</span><h3 style="margin-top:6px">Treinamento</h3>
+          <p>Do dataset aos 3 modelos: sobrevivência (perda), oferta (uplift) e perfil↔preferência.</p></div>
+        <div class="card" style="border-top:4px solid var(--purple)">
+          <span class="tag p">Pipeline 3</span><h3 style="margin-top:6px">Inferência</h3>
+          <p>Modelos em produção agindo no WhatsApp e na banca — e devolvendo rótulos pra pipeline 1.</p></div>
       </div>
-      <div class="amberbox" style="margin-top:14px">
-        Orçamento total de tempo do Nivaldo: <b>menos de 2 minutos por dia</b> — e a regra da casa permite 3.</div>
+      <div class="amberbox">↻ O ciclo se fecha: as ações da inferência (toques, compras, caixote) voltam como rótulo — <b>coleta enquanto soluciona</b>.</div>
     </div>
   </section>
 
-  <!-- 6 · PIPELINE EM UMA VISTA -->
+  <!-- 4 · PIPELINE 1 COLETA -->
   <section class="slide">
     <div class="pad">
-      <div class="kicker">Arquitetura · cada etapa nomeia a técnica, como o desafio pede</div>
-      <h2>O pipeline em uma vista</h2>
-      <div class="row grow" style="margin-top:14px;align-items:stretch">
-        <div class="flowcol col"><h4>Fontes</h4><ul>
-          <li>Romaneio</li><li>Prateleira</li><li>Caixote</li><li>Zap</li><li>Balança</li><li>Públicos</li></ul></div>
+      <div class="kicker k1">Pipeline 1 · Coleta</div>
+      <h2>Da fonte ao dataset — cada etapa é uma técnica</h2>
+      <div class="pipe">
+        <div class="stage"><h4>Fontes <b>(já existem)</b></h4><ul>
+          <li>Romaneio CEASA (foto 3×/sem)</li>
+          <li>Prateleira 6:30 (foto)</li>
+          <li>Caixote do descarte (foto)</li>
+          <li>Grupo do zap (~200)</li>
+          <li>Balança PLU</li>
+          <li>Câmera da banca</li>
+          <li>Clima + CEASA públicos</li></ul></div>
         <div class="arrow">→</div>
-        <div class="flowcol col"><h4>Pré-processamento</h4><ul>
-          <li>OCR + record linkage</li><li>Segmentação + cor</li><li>Rotulagem por causa</li>
-          <li>NER + intenção</li><li>Parsing de PLU</li><li>Séries temporais</li></ul></div>
+        <div class="stage"><h4>Pré-processamento <b>(técnicas)</b></h4><ul>
+          <li>Romaneio → <span class="tech">OCR + record linkage</span></li>
+          <li>Prateleira → <span class="tech">segmentação + cor/maturação</span></li>
+          <li>Caixote → <span class="tech">rotulagem por causa (ground truth)</span></li>
+          <li>Zap → <span class="tech">NER + detecção de intenção</span></li>
+          <li>Balança → <span class="tech">parsing de PLU</span></li>
+          <li>Câmera → <span class="tech">detecção + tracking + perfil</span></li>
+          <li>Balança×Câmera → <span class="tech">fusão de sensores (window join)</span></li>
+          <li>Públicos → <span class="tech">séries temporais</span></li></ul></div>
         <div class="arrow">→</div>
-        <div class="flowcol col"><h4>Módulos inteligentes</h4><ul>
-          <li>Agente de resposta (RAG few-shot)</li>
-          <li>Sobrevivência: hazard diário por lote</li>
-          <li>Motor de oferta (valor esperado + uplift)</li>
-          <li>Recomendador perfil↔preferência</li></ul></div>
-        <div class="arrow">→</div>
-        <div class="flowcol col"><h4>Ações no WhatsApp</h4><ul>
-          <li>Responde o cliente</li><li>Lista do CEASA</li>
-          <li>Oferta segmentada (1 toque)</li><li>Pós-venda: encomenda recorrente</li></ul></div>
+        <div class="stage b2"><h4>Saída <b>(dataset rotulado)</b></h4><ul>
+          <li><b>Lotes</b> com t₀ e custo (romaneio)</li>
+          <li><b>Estado da prateleira</b> por dia/hora</li>
+          <li><b>Transações</b>: perfil × produto × qualidade × preço</li>
+          <li><b>Rótulo de perda</b> (o caixote)</li>
+          <li><b>Preferências</b> declaradas + observadas</li>
+          <li><b>Features de clima</b> (exposição térmica)</li></ul></div>
       </div>
-      <div class="muted" style="margin-top:12px;font-size:.8rem">
-        ↻ O caixote e a reação dos clientes voltam como rótulo no dia seguinte — <b>coleta enquanto soluciona</b>.</div>
+      <div class="amberbox">O <b>caixote das 6:30</b> é o ground truth: cada foto rotula o desfecho de cada lote — de graça, todo dia.</div>
     </div>
   </section>
 
-  <!-- 7 · PRONTO VS TREINO -->
+  <!-- 4b · COLETA · CÂMERA -->
   <section class="slide">
     <div class="pad">
-      <div class="kicker">Decisão de engenharia</div>
-      <h2>Quase tudo é modelo pronto. Só <span style="color:var(--green)">três</span> treinam.</h2>
+      <div class="kicker k1">Pipeline 1 · Coleta — sub-pipeline Câmera</div>
+      <h2>Da gravação a um registro por segundo</h2>
+      <div class="pipe">
+        <div class="stage"><h4><b>Amostragem</b></h4><ul>
+          <li><span class="tech">frame sampling @1fps</span> → frames</li>
+          <li><span class="tech">sliding window 2–5s</span> → clipes (ações)</li>
+          <li><span class="tech">tracking + ReID</span> → não recontar</li></ul></div>
+        <div class="arrow">→</div>
+        <div class="stage"><h4><b>3 ramos de análise</b></h4><ul>
+          <li><b>A · Layout:</b> <span class="tech">YOLO / Grounding DINO</span>, contagem <span class="tech">SAM 2</span>, qualidade <span class="tech">CLIP / VLM</span></li>
+          <li><b>B · Pessoas:</b> <span class="tech">detecção + ByteTrack</span>, idade/gênero <span class="tech">MiVOLO</span></li>
+          <li><b>C · Interesse:</b> dwell <span class="tech">tracking</span>, olhar <span class="tech">L2CS</span>, ação <span class="tech">VideoMAE</span></li></ul></div>
+        <div class="arrow">→</div>
+        <div class="stage b2"><h4><b>Saída</b></h4><ul>
+          <li>Descriptor por segundo → série temporal</li>
+          <li>Layout · qualidade · contagem</li>
+          <li>Fluxo · perfil · nível de interesse</li>
+          <li>"parou/pegou/largou" = <b>negativos</b> p/ treino</li></ul></div>
+      </div>
+      <div class="amberbox">Layout/contagem em <b>frame isolado</b>; interesse/ação exigem <b>clipe</b>. Híbrido: specialists p/ contar+rastrear, VLM p/ o semântico.</div>
+    </div>
+  </section>
+
+  <!-- 4c · COLETA · BALANÇA/FUSÃO -->
+  <section class="slide">
+    <div class="pad">
+      <div class="kicker k1">Pipeline 1 · Coleta — sub-pipeline Balança (fusão de sensores)</div>
+      <h2>A pesagem dispara; a câmera correlaciona</h2>
       <div class="row grow" style="margin-top:14px">
-        <div class="col card">
-          <h3>❌ Pronto (dia 1)</h3>
-          <table><tbody>
-            <tr><td><b>OCR bilhete</b></td><td>PaddleOCR / Document AI</td></tr>
-            <tr><td><b>Visão / prateleira</b></td><td>YOLO, SAM 2, Grounding DINO</td></tr>
-            <tr><td><b>Qualidade fruta</b></td><td>VLM / CLIP zero-shot</td></tr>
-            <tr><td><b>Atendimento no tom</b></td><td>LLM + RAG few-shot</td></tr>
-            <tr><td><b>Clima / CEASA</b></td><td>API — nem é modelo</td></tr>
-          </tbody></table>
-        </div>
-        <div class="col card" style="border-color:#bfe0cb;background:#f2faf5">
-          <h3>✅ Treina no dado do Nivaldo</h3>
-          <table><tbody>
-            <tr><td><b>1. "Passar do ponto"</b></td><td>Análise de sobrevivência / hazard por lote</td></tr>
-            <tr><td><b>2. Motor de oferta</b></td><td>Valor esperado + uplift (causal)</td></tr>
-            <tr><td><b>3. Perfil↔preferência</b></td><td>Recommender (collaborative + content)</td></tr>
-          </tbody></table>
-          <p style="margin-top:10px"><strong>Não existe pronto</strong> pra shelf-life das frutas <i>dele</i>,
-             nas condições <i>dele</i>. Mas os caixotes treinam sozinhos.</p>
-        </div>
-      </div>
-      <div class="amberbox" style="margin-top:12px">
-        Os modelos prontos entregam valor no <b>dia 1</b> <i>e</i> geram os rótulos que treinam os 2 custom.
-        <b>Não existe "fase de coleta" separada</b> — Restrição #2 resolvida por desenho.</div>
-    </div>
-  </section>
-
-  <!-- 8 · COLETA & FUSÃO -->
-  <section class="slide">
-    <div class="pad">
-      <div class="kicker">Profundidade técnica · fusão de sensores</div>
-      <h2>Balança + câmera = uma venda rotulada</h2>
-      <p class="lead">A pesagem é o <strong>gatilho</strong>; a câmera diz o resto. Sai um registro pronto pra treinar.</p>
-      <div class="row grow" style="margin-top:14px">
-        <div class="col flowcol"><h4>Etapas nomeadas</h4><ul>
-          <li>1 · Ingestão orientada a evento (PLU)</li>
-          <li>2 · Sincronização temporal (window join)</li>
-          <li>3 · Atribuição do comprador (ROI + tracking)</li>
-          <li>4 · Perfil do comprador (faixa etária + gênero)</li>
-          <li>5 · Qualidade do produto (visão)</li>
-          <li>6 · Record linkage / feature fusion</li>
-          <li>7 · Persistência como transação</li></ul></div>
+        <div class="col stage"><h4><b>7 etapas nomeadas</b></h4><ul>
+          <li>1 · <span class="tech">ingestão orientada a evento</span> (PLU = trigger)</li>
+          <li>2 · <span class="tech">sincronização temporal (window join)</span></li>
+          <li>3 · <span class="tech">atribuição do comprador (ROI + tracking/ReID)</span></li>
+          <li>4 · <span class="tech">perfil (MiVOLO)</span></li>
+          <li>5 · <span class="tech">qualidade do produto (visão)</span></li>
+          <li>6 · <span class="tech">record linkage / feature fusion</span></li>
+          <li>7 · <span class="tech">persistência (série de transações)</span></li></ul></div>
         <div class="col card" style="display:flex;flex-direction:column">
           <h3>Registro de saída</h3>
-          <pre style="font-size:clamp(.6rem,1vw,.78rem);line-height:1.5;color:var(--ink2);white-space:pre-wrap;margin-top:6px">{
-  "produto": "manga_tommy",
-  "peso_kg": 1.2, "qtd": 1,
-  "preco_venda": 4.90,
-  "custo_ceasa": 3.10,
-  "margem": 1.80,
-  "qualidade": "estágio 2",
-  "perfil": "fem · 50-60",
-  "ts": "2026-07-25T09:14"
-}</pre>
-          <p class="mt" style="font-size:.72rem"><b>preço×qtd</b> → faturamento do dia · <b>preço−custo</b> → margem · <b>qtd/hora</b> → vazão.</p>
+          <pre style="font-size:clamp(.58rem,.98vw,.76rem);line-height:1.5;color:var(--ink2);white-space:pre-wrap;margin-top:6px">{ "produto":"manga_tommy",
+  "peso_kg":1.2, "qtd":1,
+  "preco_venda":4.90, "custo_ceasa":3.10,
+  "margem":1.80, "qualidade":"estágio 2",
+  "perfil":"fem · 50-60",
+  "ts":"2026-07-25T09:14" }</pre>
+          <p class="mt" style="font-size:.74rem">preço×qtd → <b>faturamento</b> · preço−custo → <b>margem</b> · qtd/hora → <b>vazão</b></p>
         </div>
+      </div>
+      <div class="amberbox"><b>"Perfil X comprou o produto na qualidade Y no momento Z"</b> — a linha rotulada de venda real que treina os 3 modelos.</div>
+    </div>
+  </section>
+
+  <!-- 4d · COLETA · ZAP/BILHETE/CLIMA -->
+  <section class="slide">
+    <div class="pad">
+      <div class="kicker k1">Pipeline 1 · Coleta — sub-pipelines WhatsApp · Bilhete · Clima</div>
+      <h2>As outras três fontes</h2>
+      <div class="grid3 grow" style="margin-top:12px">
+        <div class="card"><span class="tag">WhatsApp</span>
+          <ul class="clean" style="margin-top:10px">
+            <li><span class="tech">ingestão (Business API)</span></li>
+            <li><span class="tech">normalização de texto</span></li>
+            <li><span class="tech">intent classification</span></li>
+            <li><span class="tech">NER</span> (fruta, quantidade)</li>
+            <li>histórico → <span class="tech">corpus de estilo</span> + <span class="tech">afinidade</span></li></ul></div>
+        <div class="card"><span class="tag">Bilhete CEASA</span>
+          <ul class="clean" style="margin-top:10px">
+            <li><span class="tech">pré-proc. imagem</span> (deskew/denoise)</li>
+            <li><span class="tech">OCR</span> (PaddleOCR / Donut)</li>
+            <li><span class="tech">parsing key-value</span></li>
+            <li><span class="tech">fuzzy matching</span> → catálogo</li>
+            <li>→ entrada de estoque + custo (<b>t₀</b>)</li></ul></div>
+        <div class="card"><span class="tag">Clima</span>
+          <ul class="clean" style="margin-top:10px">
+            <li><span class="tech">polling agendado</span> (atual + previsão)</li>
+            <li><span class="tech">normalização</span> (unidades/tz)</li>
+            <li><span class="tech">feature engineering</span> (degree-hours)</li>
+            <li><span class="tech">alinhamento ao calendário CEASA</span></li>
+            <li>→ exposição térmica até a próxima ida</li></ul></div>
       </div>
     </div>
   </section>
 
-  <!-- 9 · MODELO 1 SOBREVIVÊNCIA -->
+  <!-- 5 · PIPELINE 2 TREINAMENTO -->
   <section class="slide">
     <div class="pad">
-      <div class="kicker">Modelo treinado · Dor 2</div>
-      <h2>"Passar do ponto" = análise de sobrevivência</h2>
+      <div class="kicker k2">Pipeline 2 · Treinamento</div>
+      <h2>Do dataset aos modelos — etapas nomeadas</h2>
+      <div class="pipe" style="margin-bottom:4px">
+        <div class="stage b2"><h4><b>Preparação</b></h4><ul>
+          <li><span class="tech">Rotulagem</span> (implicit feedback + caixote)</li>
+          <li><span class="tech">Feature engineering</span> (feature crossing, exposição térmica)</li>
+          <li><span class="tech">EDA / association rules</span> (Apriori — regras legíveis)</li>
+          <li><span class="tech">Split temporal + balanceamento</span></li></ul></div>
+        <div class="arrow" style="color:var(--blue)">→</div>
+        <div class="stage b2"><h4><b>Treino dos 3 modelos</b></h4><ul>
+          <li>① Perda: <span class="tech">análise de sobrevivência (hazard/lote)</span></li>
+          <li>② Oferta: <span class="tech">uplift / inferência causal</span></li>
+          <li>③ Preferência: <span class="tech">recommender (colab + content)</span></li></ul></div>
+        <div class="arrow" style="color:var(--blue)">→</div>
+        <div class="stage b2"><h4><b>Validação &amp; registro</b></h4><ul>
+          <li><span class="tech">Backtest</span> semanal</li>
+          <li><span class="tech">Qini / AUC / calibração</span></li>
+          <li><span class="tech">Model registry</span> (versionado)</li></ul></div>
+      </div>
+      <div class="amberbox">Só estes 3 treinam no dado do Nivaldo — o resto (OCR, visão, LLM, clima) é <b>modelo pronto</b>. Os prontos entregam no dia 1 <b>e</b> geram os rótulos que treinam estes.</div>
+    </div>
+  </section>
+
+  <!-- 5b · TREINO · MODELO 1 SOBREVIVÊNCIA -->
+  <section class="slide">
+    <div class="pad">
+      <div class="kicker k2">Pipeline 2 · Treinamento — Modelo ① "Passar do ponto"</div>
+      <h2>Análise de sobrevivência: hazard diário por lote</h2>
       <div class="row grow" style="margin-top:14px">
-        <div class="col" style="display:flex;flex-direction:column;gap:10px">
-          <div class="flowcol"><h4>A conta do lote</h4><ul>
-            <li><b>t₀</b> = romaneio (OCR) marca o nascimento do lote</li>
-            <li><b>deadline</b> = próxima ida ao CEASA (Seg·Qua·Sex)</li>
-            <li><b>hazard diário</b> = P(passar do ponto hoje | idade, qualidade, clima, vazão)</li>
-            <li>curva cruza o limiar → <b>dispara oferta</b></li></ul></div>
-          <div class="card"><p><b>Features:</b> maturação (visão) · exposição térmica acumulada (clima) ·
-             taxa de vazão (balança) · dias até o próximo CEASA.</p></div>
-        </div>
-        <div class="col card center" style="text-align:center;display:flex;flex-direction:column;justify-content:center">
-          <div class="row" style="gap:10px">
-            <div class="photo" style="flex:1;min-height:120px"><span class="cam">📷</span><span class="cap">SÁB · detecções YOLO</span><span class="fr">FOTO REAL</span></div>
-            <div class="photo" style="flex:1;min-height:120px"><span class="cam">📷</span><span class="cap">DOM · manga mudando de tom</span><span class="fr">FOTO REAL</span></div>
-          </div>
-          <p style="margin-top:12px"><strong>Sábado 6:30 a curva cruza o limiar</strong> → oferta dispara com a manga
-             ainda no <b>estágio 2</b> — vendável, não desesperada.</p>
-        </div>
+        <div class="col stage b2"><h4><b>A conta do lote</b></h4><ul>
+          <li><b>t₀</b> = romaneio (OCR) marca o nascimento do lote</li>
+          <li><b>deadline</b> = próxima ida ao CEASA (Seg·Qua·Sex)</li>
+          <li><b>hazard(t)</b> = P(passar do ponto hoje | idade, qualidade, clima, vazão)</li>
+          <li>curva cruza o limiar → <b>dispara oferta</b></li></ul></div>
+        <div class="col stage b2"><h4><b>Features → técnica</b></h4><ul>
+          <li>maturação — <span class="tech">visão</span></li>
+          <li>exposição térmica acumulada — <span class="tech">clima</span></li>
+          <li>taxa de vazão — <span class="tech">balança</span></li>
+          <li>dias até o próximo CEASA</li>
+          <li>rótulo: o <span class="tech">caixote</span> (survival + censoring)</li></ul></div>
       </div>
+      <div class="amberbox">Dispara com a fruta ainda <b>vendável</b> (estágio 2), não desesperada. Não existe modelo pronto p/ shelf-life das frutas dele.</div>
     </div>
   </section>
 
-  <!-- 10 · MODELO 2 OFERTA + NUDGE -->
+  <!-- 5c · TREINO · MODELOS 2 e 3 -->
   <section class="slide">
     <div class="pad">
-      <div class="kicker">Modelo treinado · motor de oferta + nudge</div>
-      <h2>Oferta certa, pra quem o empurrão converte</h2>
+      <div class="kicker k2">Pipeline 2 · Treinamento — Modelos ② Oferta e ③ Preferência</div>
+      <h2>Uplift (causal) + recommender</h2>
       <div class="row grow" style="margin-top:14px">
         <div class="col card">
-          <h3>No zap · oferta segmentada</h3>
-          <p><b>Valor esperado + uplift:</b> não dispara pra quem já ia comprar — mira nos
-             <strong>persuadíveis</strong>. Cada aprovação de 1 toque vira rótulo (active learning).</p>
-          <div class="chat" style="margin-top:10px">"Manga tommy: 30% de risco de perda até 2ª. Sugiro oferta a R$ 4,90 (era 6,50) pros 37 clientes que compram manga. Mando?"</div>
-          <div class="btnrow" style="margin-top:8px"><span class="btn go">APROVAR</span><span class="btn alt">MUDAR PREÇO</span><span class="btn alt">PULAR</span></div>
-        </div>
-        <div class="col card" style="border-color:#bfe0cb">
-          <h3>Na banca · nudge sonoro</h3>
-          <p>A câmera vê a banca inteira — fruta <b>e</b> quem chega. O modelo perfil↔preferência
-             estima o que aquele cliente tende a comprar e dá o empurrão na hora certa:</p>
+          <h3>② Motor de oferta — uplift</h3>
           <ul class="clean" style="margin-top:8px">
-            <li>Perfil na tela + fruta bonita disponível → gatilho</li>
-            <li>Uplift decide se o empurrão converte (não gasta à toa)</li>
-            <li>Áudio na caixa de som: <i>"olha a pera, tá bonita!"</i></li>
-          </ul>
-          <p style="margin-top:8px"><strong>O momento certo, pro cliente certo.</strong></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PÓS-VENDA / PREFERÊNCIA -->
-  <section class="slide">
-    <div class="pad">
-      <div class="kicker">Venda proativa · pós-venda</div>
-      <h2>A preferência do cliente vira venda recorrente</h2>
-      <div class="row grow" style="margin-top:14px">
-        <div class="col card">
-          <h3>Depois da compra, no zap</h3>
-          <div class="chat" style="margin-top:8px">"Você tem uma fruta preferida? Quer que eu avise sempre que tiver bonita no CEASA? 👉 clica aqui"</div>
-          <ul class="clean" style="margin-top:12px">
-            <li>Vira <b>pedido permanente</b>: manga bonita chegou → avisa quem quer manga</li>
-            <li>Preferências agregadas = <b>lista de compra do CEASA</b></li>
-            <li>Transforma cliente passivo em <b>demanda garantida</b></li>
-          </ul>
-        </div>
-        <div class="col card" style="border-color:#bfe0cb;background:#f2faf5">
-          <h3>Modelo perfil ↔ preferência</h3>
-          <p>Com a gravação guardada, o sistema aprende a ligar <b>perfil</b> (visão) a <b>preferência</b>
-             (o que a pessoa compra e pede). Assim ele acerta até com quem <i>ainda não</i> falou:</p>
+            <li>Positivos (comprou) + negativos (Ramo C: parou e largou)</li>
+            <li><span class="tech">uplift modeling</span> (CausalML / EconML) — mira nos <b>persuadíveis</b></li>
+            <li><span class="tech">contextual bandit</span> — aprende quais frases/perfis convertem</li>
+            <li>Avaliação: <span class="tech">curva de uplift / Qini</span></li></ul></div>
+        <div class="col card" style="border-color:#cdbfe0">
+          <h3>③ Perfil ↔ preferência</h3>
           <ul class="clean" style="margin-top:8px">
-            <li>Preferência declarada (opt-in) + observada (balança) = alvo</li>
-            <li>Perfil na câmera = feature</li>
-            <li>Recommender (collaborative + content filtering)</li>
-            <li>Resolve o <b>cold-start</b> do cliente novo na banca</li>
-          </ul>
-        </div>
+            <li>Alvo: preferência <b>declarada</b> (opt-in) + <b>observada</b> (balança)</li>
+            <li>Feature: perfil da câmera</li>
+            <li><span class="tech">recommender (colaborativo + content)</span></li>
+            <li>Resolve o <b>cold-start</b> do cliente novo na banca</li></ul></div>
       </div>
+      <div class="amberbox"><b>Uplift, não propensão pura:</b> não gasta o empurrão em quem já ia comprar. Cada toque de aprovação vira rótulo (active learning).</div>
     </div>
   </section>
 
-  <!-- 11 · USE CASE / TOM -->
-  <section class="slide dark">
-    <div class="pad">
-      <div class="kicker">Use case · a oferta sai no zap, no tom dele</div>
-      <h2>Dor 1 e Dor 2, no mesmo fluxo</h2>
-      <div class="row grow" style="margin-top:16px">
-        <div class="col">
-          <p class="muted" style="margin-bottom:8px">Resposta automática (Dor 1)</p>
-          <div class="chat them">"bom dia, tem manga boa?"</div>
-          <div class="chat" style="margin-top:8px">"Bom dia! Tem sim, a tommy tá docinha e hoje tá em oferta: 4,90 o quilo. Separo pra você?"</div>
-          <p class="muted" style="margin-top:12px;font-size:.78rem">
-            <b>RAG no tom do Nivaldo:</b> o estilo vem das respostas antigas dele; os fatos vêm do estado do dia.
-            <strong>Sem inventar estoque.</strong></p>
-        </div>
-        <div class="col card" style="background:var(--dark-soft);border-color:#2c4535;color:var(--cream)">
-          <h3 style="color:#fff">1 toque = oferta enviada</h3>
-          <p style="color:#bcd6c6">Só pra quem compra manga — e o toque <strong>vira rótulo que treina o modelo</strong>.
-             O sistema aprende com cada decisão que ele já tomaria de qualquer jeito.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 12 · EPÍLOGO CAIXOTE VAZIO -->
+  <!-- 6 · PIPELINE 3 INFERÊNCIA -->
   <section class="slide">
     <div class="pad">
-      <div class="kicker">Epílogo · segunda, 6h30</div>
-      <h2>O caixote conta outra história</h2>
-      <div class="row grow" style="margin-top:14px">
-        <div class="col"><p class="muted" style="margin-bottom:6px">ANTES</p>
-          <div class="photo" style="min-height:150px"><span class="cam">🗑️</span><span class="cap">caixote cheio</span><span class="fr">FOTO REAL</span></div></div>
-        <div class="col"><p class="muted" style="margin-bottom:6px">DEPOIS</p>
-          <div class="photo" style="min-height:150px"><span class="cam">🗑️</span><span class="cap">caixote quase vazio na segunda</span><span class="fr">FOTO REAL</span></div></div>
-        <div class="col card center" style="display:flex;flex-direction:column;justify-content:center;text-align:center">
-          <div class="muted" style="font-size:.72rem">Relatório semanal no zap</div>
-          <div class="big" style="font-size:clamp(2rem,5vw,3.4rem)">R$ 340</div>
-          <div style="font-size:.8rem">de perda evitada nesta semana*</div>
-          <p style="margin-top:10px;font-size:.74rem"><strong>O Nivaldo não compra IA — compra caixote vazio.</strong></p>
-          <div class="muted" style="font-size:.6rem;margin-top:6px">*ilustrativo; o real sai do backtest com os dados dele</div>
-        </div>
+      <div class="kicker k3">Pipeline 3 · Inferência</div>
+      <h2>Modelos em produção — módulos e ações</h2>
+      <div class="pipe">
+        <div class="stage b3"><h4><b>Entrada (tempo real)</b></h4><ul>
+          <li>Mensagem nova no zap</li>
+          <li>Estado do dia (prateleira, vazão)</li>
+          <li>Perfil de quem chega na banca</li>
+          <li>Modelos versionados (pipeline 2)</li></ul></div>
+        <div class="arrow" style="color:var(--purple)">→</div>
+        <div class="stage b3"><h4><b>Módulos inteligentes</b></h4><ul>
+          <li><span class="tech">Agente RAG few-shot</span> (tom do Nivaldo)</li>
+          <li><span class="tech">Hazard cruza limiar</span> → risco de perda</li>
+          <li><span class="tech">Motor de oferta (valor esperado + uplift)</span></li>
+          <li><span class="tech">Recommender</span> (perfil↔preferência)</li>
+          <li><span class="tech">Forecast de demanda</span></li></ul></div>
+        <div class="arrow" style="color:var(--purple)">→</div>
+        <div class="stage b3"><h4><b>Ações</b></h4><ul>
+          <li>Responde disponibilidade no zap <span class="muted">(Dor 1)</span></li>
+          <li>Oferta segmentada, 1 toque <span class="muted">(Dor 2)</span></li>
+          <li>Pós-venda: encomenda recorrente</li>
+          <li>Nudge sonoro na banca</li>
+          <li>Lista de compra do CEASA</li></ul></div>
       </div>
+      <div class="amberbox">Cada aprovação de 1 toque e cada compra viram <b>rótulo novo</b> → realimentam a Pipeline 1. O sistema fica mais esperto sozinho.</div>
     </div>
   </section>
 
-  <!-- 13 · SEM HISTÓRICO / 3 FASES -->
-  <section class="slide">
-    <div class="pad">
-      <div class="kicker">A pergunta dos jurados</div>
-      <h2>"E como funciona sem histórico?"</h2>
-      <div class="grid3 grow" style="margin-top:14px">
-        <div class="card"><span class="tag">Fase 1 · dia 1</span>
-          <ul class="clean" style="margin-top:10px">
-            <li>Só o celular dele — zero hardware</li>
-            <li>Prior público (CEASA + vida útil) + regras de domínio</li>
-            <li>Agente já responde; oferta por regra grosseira</li>
-            <li>Cada toque = rótulo (active learning)</li></ul></div>
-        <div class="card"><span class="tag f2">Fase 2 · ~6 semanas</span>
-          <ul class="clean" style="margin-top:10px">
-            <li>Modelo treinado pelos caixotes reais</li>
-            <li>Balança conectada: giro por hora</li>
-            <li>Oferta com valor esperado + segmentação</li>
-            <li>Backtest semanal decide cada versão</li></ul></div>
-        <div class="card"><span class="tag free">Fase 3 · câmera</span>
-          <ul class="clean" style="margin-top:10px">
-            <li>Câmera vê a banca: prateleira + fluxo de clientes</li>
-            <li>Perfil↔preferência treina o nudge e o cold-start</li>
-            <li>Estoque e giro intradiário</li>
-            <li>Recomendação proativa na banca e no zap</li></ul></div>
-      </div>
-      <div class="amberbox" style="margin-top:12px">
-        Não existe "fase de coleta" separada: o sistema <b>coleta enquanto soluciona</b> — Restrição #2, resolvida por desenho.</div>
-    </div>
-  </section>
-
-  <!-- 14 · NÃO É SÓ O NIVALDO -->
-  <section class="slide dark">
-    <div class="pad">
-      <div class="kicker">Mercado</div>
-      <h2>Não é só o Nivaldo</h2>
-      <p class="lead muted">Todo micro-varejista de perecível tem a mesma estrutura:</p>
-      <div class="grid2 grow" style="margin-top:14px">
-        <div class="row" style="gap:10px;flex-wrap:wrap">
-          <div class="card col" style="background:var(--dark-soft);border-color:#2c4535;min-width:120px"><h3 style="color:#fff">Compra no atacado</h3></div>
-          <div class="card col" style="background:var(--dark-soft);border-color:#2c4535;min-width:120px"><h3 style="color:#fff">Vende no olho</h3></div>
-          <div class="card col" style="background:var(--dark-soft);border-color:#2c4535;min-width:120px"><h3 style="color:#fff">Perde no caixote</h3></div>
-          <div class="card col" style="background:var(--dark-soft);border-color:#2c4535;min-width:120px"><h3 style="color:#fff">Vive no zap</h3></div>
-          <p class="muted" style="font-size:.8rem;margin-top:4px">O pipeline é o mesmo — só troca o vocabulário de produtos.
-             <b>Açougue, padaria, floricultura, peixaria.</b></p>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div class="card" style="background:var(--dark-soft);border-color:#2c4535">
-            <h3 style="color:#fff">Modelo de cobrança</h3>
-            <p style="color:#bcd6c6">Assinatura mensal <strong>menor que a perda evitada</strong> — o relatório semanal prova o ROI todo mês, em reais.</p></div>
-          <div class="card" style="background:var(--dark-soft);border-color:#2c4535">
-            <h3 style="color:#fff">O efeito rede</h3>
-            <p style="color:#bcd6c6">Cada varejista treina o modelo com os próprios caixotes — e o aprendizado de <strong>perfil↔preferência</strong> melhora a recomendação pra todos. Quanto mais bancas, mais esperto o sistema.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 15 · OBRIGADO -->
+  <!-- 7 · O CICLO -->
   <section class="slide dark">
     <div class="pad center" style="text-align:center;align-items:center">
-      <div class="big" style="font-size:clamp(2.6rem,7vw,5rem)">Obrigado.</div>
-      <p class="lead muted" style="text-align:center;margin-top:14px">O Nivaldo não compra IA — compra caixote vazio.</p>
-      <div class="kicker" style="margin-top:22px">Perguntas?</div>
+      <div class="kicker">O ciclo fechado</div>
+      <h2 style="max-width:24ch">Coleta → Treino → Inferência → e volta pra Coleta</h2>
+      <div class="maparrow" style="margin-top:26px;width:100%;max-width:860px">
+        <div class="mapbox m1"><h3>Coleta</h3><p>dado onde já nasce</p></div>
+        <div class="mapsep">→</div>
+        <div class="mapbox m2"><h3>Treino</h3><p>3 modelos custom</p></div>
+        <div class="mapsep">→</div>
+        <div class="mapbox m3"><h3>Inferência</h3><p>ações + rótulos</p></div>
+        <div class="mapsep">↻</div>
+      </div>
+      <p class="lead muted" style="text-align:center;margin-top:26px;max-width:60ch">
+        Sem "fase de coleta" separada. O ground truth nasce todo dia no caixote, e as ações da inferência
+        rotulam o dia seguinte. <strong>Coleta enquanto resolve — Restrição #2, resolvida por desenho.</strong></p>
+    </div>
+  </section>
+
+  <!-- 8 · FECHO -->
+  <section class="slide dark">
+    <div class="pad center" style="text-align:center;align-items:center">
+      <div class="big">3 pipelines,<br>2 dores resolvidas.</div>
+      <p class="lead muted" style="text-align:center;margin-top:18px">Coleta · Treinamento · Inferência</p>
+      <div class="kicker" style="margin-top:22px">Obrigado — perguntas?</div>
     </div>
   </section>
 
@@ -505,39 +413,31 @@
 
 <button class="nav" id="prev" aria-label="anterior">‹</button>
 <button class="nav" id="next" aria-label="próximo">›</button>
-<div id="counter">01 / 16</div>
-<div id="hint">← → para navegar · F tela cheia</div>
+<div id="counter">01 / 13</div>
+<div id="hint">← → navegar · F tela cheia</div>
 
 <script>
   const slides = Array.from(document.querySelectorAll('.slide'));
   let i = 0;
-  const bar = document.getElementById('bar');
-  const counter = document.getElementById('counter');
-  function pad(n){return String(n).padStart(2,'0');}
+  const bar = document.getElementById('bar'), counter = document.getElementById('counter');
+  const pad = n => String(n).padStart(2,'0');
   function show(n){
     i = Math.max(0, Math.min(slides.length-1, n));
     slides.forEach((s,k)=>s.classList.toggle('active', k===i));
     bar.style.width = ((i+1)/slides.length*100)+'%';
     counter.textContent = pad(i+1)+' / '+pad(slides.length);
   }
-  function next(){show(i+1);}
-  function prev(){show(i-1);}
-  document.getElementById('next').onclick = next;
-  document.getElementById('prev').onclick = prev;
+  const next=()=>show(i+1), prev=()=>show(i-1);
+  document.getElementById('next').onclick=next;
+  document.getElementById('prev').onclick=prev;
   document.addEventListener('keydown', e=>{
-    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();next();}
-    else if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();prev();}
-    else if(e.key==='Home'){show(0);}
-    else if(e.key==='End'){show(slides.length-1);}
-    else if(e.key.toLowerCase()==='f'){
-      if(!document.fullscreenElement) document.documentElement.requestFullscreen();
-      else document.exitFullscreen();
-    }
+    if(['ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();next();}
+    else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();prev();}
+    else if(e.key==='Home')show(0); else if(e.key==='End')show(slides.length-1);
+    else if(e.key.toLowerCase()==='f'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();}
   });
-  // tap zones on the stage (mobile)
   document.getElementById('stage').addEventListener('click', e=>{
-    const x = e.clientX / window.innerWidth;
-    if(x>0.65) next(); else if(x<0.35) prev();
+    const x=e.clientX/window.innerWidth; if(x>0.65)next(); else if(x<0.35)prev();
   });
   show(0);
 </script>
